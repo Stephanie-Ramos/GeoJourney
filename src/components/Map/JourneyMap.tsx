@@ -7,7 +7,11 @@ import { journeyStops} from "../../data/journeyStops";
 
 setWorkerUrl(workerUrl); 
 
-function JourneyMap() {
+interface JourneyMapProps {
+  onMapReady: (map: Map) => void;
+}
+
+function JourneyMap({ onMapReady }: JourneyMapProps) {
     const mapContainer = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -42,10 +46,12 @@ function JourneyMap() {
 
         });
 
+        onMapReady(map);
+
         return () => {
             map.remove();
         };
-    },[]);
+    },[onMapReady]);
 
     return <div ref={mapContainer} className="map-container" />
 
