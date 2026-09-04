@@ -1,4 +1,26 @@
-function BeginningSection() {
+import type { Map } from "maplibre-gl";
+
+interface BeginningSectionProps {
+    map: Map | null;
+}
+
+function BeginningSection({ map }: BeginningSectionProps) {
+    const handleBeginJourney = () => {
+        // if the map has loaded yet, then don't try to control it  
+        if (!map) return;
+
+        // an animated transition that combines panning and zooming to between locations. 
+        map.flyTo({
+            // treasure island coordinates [lng, lat]
+            center: [-118.1376, 33.9564],
+            zoom: 12,
+            // in miliseconds, it takes ~3 seconds for the camera to fly to the starting point 
+            duration: 3000,
+            // the animation should still occur even if the user has enabled reduced-motion preferences 
+            essential: true,
+        });
+    };
+
     return (
         <section className="beginning-section">
             <div className="beginning content">
@@ -20,12 +42,16 @@ function BeginningSection() {
                 </div>
 
                 {/* Button */}
-                <button className="begin-journey-button">
+                <button className="begin-journey-button"
+                    className="begin-journey-button"
+                    onClick={handleBeginJourney}
+                    disabled={!map}
+                >
                     Begin the Journey
                 </button>
             </div>
         </section>
-    )
-};
+    );
+}
 
 export default BeginningSection; 
