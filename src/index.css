@@ -18,4 +18,100 @@ body {
 .map-container {
   width: 100%;
   height: 100%;
+  /* Make the map explicitly fill the viewport */
+  position: fixed;
+  inset: 0;
+}
+
+/* BeginningSection: The section */
+.beginning-section {
+  position: absolute;
+  /* This controls the vertical stacking order of elements on a webpage: 
+  This will be placed in front of 9 elements */
+  z-index: 10;
+  /* This will show at the top left corner */
+  top: 0;
+  left: 0;
+
+  width: 420px;
+  /* viewport height: the total height of the browser's viewport */
+  min-height: 100vh; 
+
+  display: flex;
+  align-items: center;
+
+  /* This is in all sides */
+  padding: 40px;
+
+  /* the padding and border are included in the calculation of height and width */
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+/* BeginningSection: The div tag */
+.beginning-content {
+  width: 100%;
+}
+
+/* BeginningSection: The p tag */
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+/* BeginningSection: The heading tag */
+.beginning-section h1 {
+  margin: 0 0 20px;
+  font-size: 3rem;
+  line-height: 1.05;
+}
+
+/* BeginningSection: Portfolio Description */
+.beginning-description {
+  margin-bottom: 40px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* BeginnningSection: Starting point location*/
+.beginning-location {
+  margin-bottom: 35px;
+  padding-left: 16px;
+  border-left: 3px solid #222;
+}
+
+.location-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.beginning-location h2 {
+  margin: 8px 0 4px;
+  font-size: 1.4rem;
+}
+
+.beginning-location p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* BeginningSection button */
+.begin-journey-button {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 4px;
+  background: #222;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.begin-journey-button:hover {
+  opacity: 0.85;
 }
