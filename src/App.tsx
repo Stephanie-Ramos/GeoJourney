@@ -1,11 +1,16 @@
 import JourneyMap from "./components/Map/JourneyMap"
+import BeginningSection from "./components/Intro/BeginningSection";
 
 function App() {
   return (
-    <div className="app">
+    // Here, we use the main tag to identify the central and unique core content of the webpage
+    <main className="app">
+      <BeginningSection />
       <JourneyMap />
-    </div>
+    </main>
   );
 }
 
 export default App
+
+// This application now has two pieces: BeginningSection component and JourneyMap
