@@ -4,6 +4,7 @@ import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { journeyStops} from "../../data/journeyStops";
+import { journeyRoute } from "../../data/journeyRoute";
 
 setWorkerUrl(workerUrl); 
 
@@ -25,6 +26,36 @@ function JourneyMap({ onMapReady }: JourneyMapProps) {
         });
 
         map.addControl(new NavigationControl(), "top-right");
+
+        map.on("load", () => {
+            // giving the journeyRoute GeoJSON
+            map.addSource("journey-route", {
+                type: "geojson",
+                data: journeyRoute,
+            });
+            // the source connects the layer to the journey-route
+            map.addLayer({
+                id: "journey-route-line",
+                type: "line",
+                source: "journey-route",
+                layout: {
+                "line-join": "round",
+                "line-cap": "round",
+                },
+                // line appearance
+                paint: {
+                "line-color": '#008000',
+                "line-width": 5,
+                "line-opacity": 0.8,
+                },
+            });
+            });
+
+
+
+
+
+
 
         // temp code: console log to fix the correct map position when page opens up and extract the exact coordinates to do so
         // Event listener
