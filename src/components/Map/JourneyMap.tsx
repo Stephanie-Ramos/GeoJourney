@@ -10,11 +10,14 @@ setWorkerUrl(workerUrl);
 
 interface JourneyMapProps {
   onMapReady: (map: Map) => void;
+  journeyStarted: boolean;
 }
 
-function JourneyMap({ onMapReady }: JourneyMapProps) {
+function JourneyMap({ onMapReady, journeyStarted }: JourneyMapProps) {
     const mapContainer = useRef<HTMLDivElement | null>(null);
+    const mapRef = useRef<Map | null>(null);
 
+    // Create the MapLibre map 
     useEffect(() => {
         if (!mapContainer.current) return;
 
@@ -25,8 +28,12 @@ function JourneyMap({ onMapReady }: JourneyMapProps) {
             zoom: 9,
         });
 
+        // Store the MapLibre map in our ref
+        mapRef.current = map;
+
         map.addControl(new NavigationControl(), "top-right");
 
+        // Add the journey route after the map style loads
         map.on("load", () => {
             // giving the journeyRoute GeoJSON
             map.addSource("journey-route", {
@@ -46,16 +53,10 @@ function JourneyMap({ onMapReady }: JourneyMapProps) {
                 paint: {
                 "line-color": '#008000',
                 "line-width": 5,
-                "line-opacity": 0.8,
+                "line-opacity": 0,
                 },
             });
-            });
-
-
-
-
-
-
+        });
 
         // temp code: console log to fix the correct map position when page opens up and extract the exact coordinates to do so
         // Event listener
@@ -77,15 +78,37 @@ function JourneyMap({ onMapReady }: JourneyMapProps) {
 
         });
 
+        // Give App.tsx access to the map
         onMapReady(map);
 
         return () => {
             map.remove();
+            mapRef.current = null;
         };
     },[onMapReady]);
 
-    return <div ref={mapContainer} className="map-container" />
+    // Reveal the route when the journey begins
+    useEffect(() => {
+        if (!journeyStarted) return;
+        
+        const map = mapRef.current;
 
+        if (!map) return;
+
+        // Wait until the map has finished loading
+        if (!map.isStyleLoaded()) return;
+        
+        // Make sure the route layer exists
+        if (!map.getLayer("journey-route-line")) return;
+
+        map.setPaintProperty(
+            "journey-route-line",
+            "line-opacity",
+             0.8
+        );
+    }, [journeyStarted]);
+
+    return (<div ref={mapContainer} className="map-container" />);
 }
 
 export default JourneyMap; 

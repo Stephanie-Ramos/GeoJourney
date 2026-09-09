@@ -2,9 +2,10 @@ import type { Map } from "maplibre-gl";
 
 interface BeginningSectionProps {
     map: Map | null;
+    onBeginJourney: () => void;
 }
 
-function BeginningSection({ map }: BeginningSectionProps) {
+function BeginningSection({ map, onBeginJourney }: BeginningSectionProps) {
     const handleBeginJourney = () => {
         // if the map has loaded yet, then don't try to control it  
         if (!map) return;
@@ -19,6 +20,8 @@ function BeginningSection({ map }: BeginningSectionProps) {
             // the animation should still occur even if the user has enabled reduced-motion preferences 
             essential: true,
         });
+
+        onBeginJourney();
     };
 
     return (
@@ -43,7 +46,6 @@ function BeginningSection({ map }: BeginningSectionProps) {
 
                 {/* Button */}
                 <button className="begin-journey-button"
-                    className="begin-journey-button"
                     onClick={handleBeginJourney}
                     disabled={!map}
                 >
