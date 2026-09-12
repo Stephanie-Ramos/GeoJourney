@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import {
   Map,
   Marker,
@@ -19,12 +19,14 @@ setWorkerUrl(workerUrl);
 interface JourneyMapProps {
   onMapReady: (map: Map) => void;
   journeyStarted: boolean;
+  resumeJourney: number;
   onStopSelect: (stop: JourneyStop) => void;
 }
 
 function JourneyMap({
   onMapReady,
   journeyStarted,
+  resumeJourney,
   onStopSelect,
 }: JourneyMapProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -42,13 +44,16 @@ function JourneyMap({
 
   const journeyMarkerRef = useRef<Marker | null>(null);
 
+  // Remembers which route segment the journey is currently on
+  const segmentIndexRef = useRef(0);
+
   // Keep the ref synchronized with React state
   useEffect(() => {
     journeyStartedRef.current = journeyStarted;
   }, [journeyStarted]);
 
   // Animate the route
-  const animateRoute = () => {
+  const animateRoute = useCallback(() => {
     // Prevent the animation from starting more than once
   if (animationStartedRef.current) return;
 
@@ -79,8 +84,6 @@ function JourneyMap({
     return;
   }
 
-  let segmentIndex = 0;
-
   const segmentDuration = 1000;
 
   const animateSegment = (startTime: number) => {
@@ -94,8 +97,11 @@ function JourneyMap({
     );
 
     // Get the current and next coordinate
-    const start = coordinates[segmentIndex];
-    const end = coordinates[segmentIndex + 1];
+    const start =
+      coordinates[segmentIndexRef.current];
+
+    const end =
+      coordinates[segmentIndexRef.current + 1];
 
     // Interpolate longitude
     const longitude =
@@ -120,7 +126,10 @@ function JourneyMap({
 
     // Build the route currently visible
     const animatedCoordinates = [
-      ...coordinates.slice(0, segmentIndex + 1),
+      ...coordinates.slice(
+        0,
+        segmentIndexRef.current + 1
+      ),
       [longitude, latitude] as [number, number],
     ];
 
@@ -146,24 +155,31 @@ function JourneyMap({
     }
 
     // Move to the next segment
-    segmentIndex++;
+    segmentIndexRef.current++;
 
     // Check whether the moving marker
     // has reached the Guardrail Dashboard stop
     if (
-      segmentIndex < coordinates.length &&
-      coordinates[segmentIndex][0] ===
+      segmentIndexRef.current < coordinates.length &&
+      coordinates[segmentIndexRef.current][0] ===
         guardrailStop.coordinates[0] &&
-      coordinates[segmentIndex][1] ===
+      coordinates[segmentIndexRef.current][1] ===
         guardrailStop.coordinates[1]
+
     ) {
       onStopSelect(guardrailStop); 
+      
+    // This allows us to call animateRoute() again when the user presses Continue Journey
+      animationStartedRef.current = false;
 
       return;
     }
 
     // Check whether the entire route has been drawn
-    if (segmentIndex >= coordinates.length - 1) {
+    if (
+      segmentIndexRef.current >=
+      coordinates.length - 1
+    ) {
       return;
     }
 
@@ -175,7 +191,8 @@ function JourneyMap({
 
   // Start the first segment
   animateSegment(performance.now());
-};
+  }, [onStopSelect]);
+
   // Create the MapLibre map
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -312,10 +329,11 @@ function JourneyMap({
       animationStartedRef.current = false;
       journeyMarkerRef.current = null;
     };
-  }, [onMapReady, onStopSelect]);
+  }, [onMapReady, onStopSelect, animateRoute]);
 
   // Start the route animation when
   // the user clicks "Begin the Journey"
+  // Journey-start effect
   useEffect(() => {
     if (!journeyStarted) return;
 
@@ -323,7 +341,16 @@ function JourneyMap({
     if (!routeReadyRef.current) return;
 
     animateRoute();
-  }, [journeyStarted]);
+  }, [journeyStarted, animateRoute]);
+
+  // Journey-resume effect
+  useEffect(() => {
+    if (resumeJourney === 0) return;
+
+    if (!routeReadyRef.current) return;
+
+    animateRoute();
+}, [resumeJourney, animateRoute]);
 
   return (
     <div

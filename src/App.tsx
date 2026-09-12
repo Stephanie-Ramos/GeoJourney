@@ -11,6 +11,8 @@ function App() {
   // when the user clicks the button then it tells JourneyMap to start the animation
   const [journeyStarted, setJourneyStarted] = useState(false);
 
+  const [resumeJourney, setResumeJourney] = useState(0);
+
   const [selectedStop, setSelectedStop] = useState<JourneyStop | null>(null); 
 
   const handleStopSelect = useCallback(
@@ -27,7 +29,7 @@ function App() {
     <main className="app">
       {/* BeginningSection doesnt have a map property */}
       <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
-      <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} onStopSelect={handleStopSelect}/>
+      <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect}/>
       {selectedStop && (
         <aside className="project-panel">
           <button 
@@ -77,6 +79,15 @@ function App() {
               View Project
             </a>
           )}
+          <button
+            className="continue-journey-button"
+            onClick={() => {
+              setSelectedStop(null);
+              setResumeJourney((value) => value + 1);
+            }}
+          >
+            Continue Journey
+          </button>
         </aside>
       )}
     </main>
