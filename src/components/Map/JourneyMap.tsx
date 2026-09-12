@@ -12,17 +12,20 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { journeyStops } from "../../data/journeyStops";
 import { journeyRoute } from "../../data/journeyRoute";
+import type { JourneyStop } from "../../types/journey";
 
 setWorkerUrl(workerUrl);
 
 interface JourneyMapProps {
   onMapReady: (map: Map) => void;
   journeyStarted: boolean;
+  onStopSelect: (stop: JourneyStop) => void;
 }
 
 function JourneyMap({
   onMapReady,
   journeyStarted,
+  onStopSelect,
 }: JourneyMapProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
@@ -249,11 +252,24 @@ function JourneyMap({
       );
     });
 
-    // Add markers for each journey stop
     journeyStops.forEach((stop) => {
-      new Marker()
+      const marker = new Marker()
         .setLngLat(stop.coordinates)
         .addTo(map);
+
+      const markerElement = marker.getElement();
+
+    // make the marker interactive 
+      markerElement.style.cursor = "pointer";
+    // receive mouse events
+      markerElement.style.pointerEvents = "auto";
+
+      markerElement.addEventListener("click", (event) => {
+        // prevents the click from continuing down to the map's interaction handling 
+        event.stopPropagation();
+
+        onStopSelect(stop);
+      });
     });
 
     // Give the parent App component
@@ -269,7 +285,7 @@ function JourneyMap({
       animationStartedRef.current = false;
       journeyMarkerRef.current = null;
     };
-  }, [onMapReady]);
+  }, [onMapReady, onStopSelect]);
 
   // Start the route animation when
   // the user clicks "Begin the Journey"
