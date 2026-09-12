@@ -37,6 +37,8 @@ function JourneyMap({
   // inside the MapLibre load event
   const journeyStartedRef = useRef(false);
 
+  const journeyMarkerRef = useRef<Marker | null>(null);
+
   // Keep the ref synchronized with React state
   useEffect(() => {
     journeyStartedRef.current = journeyStarted;
@@ -88,6 +90,16 @@ function JourneyMap({
       const latitude =
         start[1] +
         (end[1] - start[1]) * progress;
+
+      const markerPosition: [number, number] = [
+        longitude, 
+        latitude,
+      ];
+      
+
+      if (journeyMarkerRef.current) {
+        journeyMarkerRef.current.setLngLat(markerPosition);
+      }
 
       // Build the route currently visible
       const animatedCoordinates = [
@@ -190,6 +202,20 @@ function JourneyMap({
         },
       });
 
+      const startingCoordinate: [number, number] =
+        journeyRoute.geometry.coordinates[0] as [
+            number,
+            number
+        ];
+
+      const journeyMarker = new Marker({
+        color: "#008000",
+        })
+        .setLngLat(startingCoordinate)
+        .addTo(map);
+
+      journeyMarkerRef.current = journeyMarker;
+
       // The route is now ready
       routeReadyRef.current = true;
 
@@ -236,6 +262,7 @@ function JourneyMap({
       mapRef.current = null;
       routeReadyRef.current = false;
       animationStartedRef.current = false;
+      journeyMarkerRef.current = null;
     };
   }, [onMapReady]);
 
