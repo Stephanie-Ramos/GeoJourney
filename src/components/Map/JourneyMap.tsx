@@ -57,43 +57,81 @@ function JourneyMap({
 
     if (!source) return;
 
-    // Tell TypeScript this is a GeoJSON source
     const routeSource = source as GeoJSONSource;
 
     const coordinates = journeyRoute.geometry.coordinates;
 
-    let currentIndex = 1;
+    let segmentIndex = 0;
 
-    const drawNextPoint = () => {
-      // Stop when the entire route has been drawn
-      if (currentIndex >= coordinates.length) {
-        return;
-      }
+    const segmentDuration = 1000;
 
-      // Create a partial version of the route
+    const animateSegment = (startTime: number) => {
+      const currentTime = performance.now();
+
+      const elapsed = currentTime - startTime;
+
+      const progress = Math.min(
+        elapsed / segmentDuration,
+        1
+      );
+
+      // Get the current and next coordinate
+      const start = coordinates[segmentIndex];
+      const end = coordinates[segmentIndex + 1];
+
+      // Interpolate longitude
+      const longitude =
+        start[0] +
+        (end[0] - start[0]) * progress;
+
+      // Interpolate latitude
+      const latitude =
+        start[1] +
+        (end[1] - start[1]) * progress;
+
+      // Build the route currently visible
+      const animatedCoordinates = [
+        ...coordinates.slice(0, segmentIndex + 1),
+        [longitude, latitude] as [number, number],
+      ];
+
       const partialRoute = {
         type: "Feature" as const,
         properties: {},
         geometry: {
           type: "LineString" as const,
-          coordinates: coordinates.slice(
-            0,
-            currentIndex + 1
-          ),
+          coordinates: animatedCoordinates,
         },
       };
 
       // Update the route on the map
       routeSource.setData(partialRoute);
 
-      currentIndex += 1;
+      // Continue animating this segment
+      if (progress < 1) {
+        requestAnimationFrame(() => {
+          animateSegment(startTime);
+        });
 
-      // Draw the next section after a short delay
-      setTimeout(drawNextPoint, 500);
+        return;
+      }
+
+      // Move to the next segment
+      segmentIndex++;
+
+      // Check whether the entire route has been drawn
+      if (segmentIndex >= coordinates.length - 1) {
+        return;
+      }
+
+      // Start the next segment
+      requestAnimationFrame(() => {
+        animateSegment(performance.now());
+      });
     };
 
-    // Start drawing the route
-    drawNextPoint();
+    // Start the first segment
+    animateSegment(performance.now());
   };
 
   // Create the MapLibre map
