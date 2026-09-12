@@ -50,105 +50,132 @@ function JourneyMap({
   // Animate the route
   const animateRoute = () => {
     // Prevent the animation from starting more than once
-    if (animationStartedRef.current) return;
+  if (animationStartedRef.current) return;
 
-    animationStartedRef.current = true;
+  animationStartedRef.current = true;
 
-    const map = mapRef.current;
+  const map = mapRef.current;
 
-    if (!map) return;
+  if (!map) return;
 
-    const source = map.getSource("journey-route");
+  const source = map.getSource("journey-route");
 
-    if (!source) return;
+  if (!source) return;
 
-    const routeSource = source as GeoJSONSource;
+  const routeSource = source as GeoJSONSource;
 
-    const coordinates = journeyRoute.geometry.coordinates;
+  const coordinates = journeyRoute.geometry.coordinates;
 
-    let segmentIndex = 0;
+  // Find the Guardrail Dashboard portfolio stop
+  const guardrailStop = journeyStops.find(
+    (stop) => stop.id === "guardrail-dashboard"
+  );
 
-    const segmentDuration = 1000;
+  if (!guardrailStop) {
+    console.error(
+      "Guardrail Dashboard stop not found."
+    );
 
-    const animateSegment = (startTime: number) => {
-      const currentTime = performance.now();
+    return;
+  }
 
-      const elapsed = currentTime - startTime;
+  let segmentIndex = 0;
 
-      const progress = Math.min(
-        elapsed / segmentDuration,
-        1
+  const segmentDuration = 1000;
+
+  const animateSegment = (startTime: number) => {
+    const currentTime = performance.now();
+
+    const elapsed = currentTime - startTime;
+
+    const progress = Math.min(
+      elapsed / segmentDuration,
+      1
+    );
+
+    // Get the current and next coordinate
+    const start = coordinates[segmentIndex];
+    const end = coordinates[segmentIndex + 1];
+
+    // Interpolate longitude
+    const longitude =
+      start[0] +
+      (end[0] - start[0]) * progress;
+
+    // Interpolate latitude
+    const latitude =
+      start[1] +
+      (end[1] - start[1]) * progress;
+
+    const markerPosition: [number, number] = [
+      longitude,
+      latitude,
+    ];
+
+    if (journeyMarkerRef.current) {
+      journeyMarkerRef.current.setLngLat(
+        markerPosition
       );
+    }
 
-      // Get the current and next coordinate
-      const start = coordinates[segmentIndex];
-      const end = coordinates[segmentIndex + 1];
+    // Build the route currently visible
+    const animatedCoordinates = [
+      ...coordinates.slice(0, segmentIndex + 1),
+      [longitude, latitude] as [number, number],
+    ];
 
-      // Interpolate longitude
-      const longitude =
-        start[0] +
-        (end[0] - start[0]) * progress;
-
-      // Interpolate latitude
-      const latitude =
-        start[1] +
-        (end[1] - start[1]) * progress;
-
-      const markerPosition: [number, number] = [
-        longitude, 
-        latitude,
-      ];
-      
-
-      if (journeyMarkerRef.current) {
-        journeyMarkerRef.current.setLngLat(markerPosition);
-      }
-
-      // Build the route currently visible
-      const animatedCoordinates = [
-        ...coordinates.slice(0, segmentIndex + 1),
-        [longitude, latitude] as [number, number],
-      ];
-
-      const partialRoute = {
-        type: "Feature" as const,
-        properties: {},
-        geometry: {
-          type: "LineString" as const,
-          coordinates: animatedCoordinates,
-        },
-      };
-
-      // Update the route on the map
-      routeSource.setData(partialRoute);
-
-      // Continue animating this segment
-      if (progress < 1) {
-        requestAnimationFrame(() => {
-          animateSegment(startTime);
-        });
-
-        return;
-      }
-
-      // Move to the next segment
-      segmentIndex++;
-
-      // Check whether the entire route has been drawn
-      if (segmentIndex >= coordinates.length - 1) {
-        return;
-      }
-
-      // Start the next segment
-      requestAnimationFrame(() => {
-        animateSegment(performance.now());
-      });
+    const partialRoute = {
+      type: "Feature" as const,
+      properties: {},
+      geometry: {
+        type: "LineString" as const,
+        coordinates: animatedCoordinates,
+      },
     };
 
-    // Start the first segment
-    animateSegment(performance.now());
+    // Update the route on the map
+    routeSource.setData(partialRoute);
+
+    // Continue animating this segment
+    if (progress < 1) {
+      requestAnimationFrame(() => {
+        animateSegment(startTime);
+      });
+
+      return;
+    }
+
+    // Move to the next segment
+    segmentIndex++;
+
+    // Check whether the moving marker
+    // has reached the Guardrail Dashboard stop
+    if (
+      segmentIndex < coordinates.length &&
+      coordinates[segmentIndex][0] ===
+        guardrailStop.coordinates[0] &&
+      coordinates[segmentIndex][1] ===
+        guardrailStop.coordinates[1]
+    ) {
+      onStopSelect(guardrailStop); 
+
+      return;
+    }
+
+    // Check whether the entire route has been drawn
+    if (segmentIndex >= coordinates.length - 1) {
+      return;
+    }
+
+    // Start the next segment
+    requestAnimationFrame(() => {
+      animateSegment(performance.now());
+    });
   };
 
+  // Start the first segment
+  animateSegment(performance.now());
+};
   // Create the MapLibre map
   useEffect(() => {
     if (!mapContainer.current) return;
