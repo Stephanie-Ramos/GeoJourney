@@ -208,9 +208,14 @@ function JourneyMap({
             number
         ];
 
+      const markerElement = document. createElement("div");
+      
+      markerElement.className = "journey-marker";
+
       const journeyMarker = new Marker({
-        color: "#008000",
-        })
+        element: markerElement,
+        anchor: "center",
+      })
         .setLngLat(startingCoordinate)
         .addTo(map);
 

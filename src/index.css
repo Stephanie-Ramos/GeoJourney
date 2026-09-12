@@ -115,3 +115,39 @@ body {
 .begin-journey-button:hover {
   opacity: 0.85;
 }
+
+/* Add the Marker styling */
+.journey-marker {
+  width: 18px;
+  height: 18px;
+
+  border: 4px solid #008000;
+  border-radius: 50%;
+
+  background: white;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 0 0 4px rgba(0, 128, 0, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Give the Marker a subtle pulse */
+.journey-marker {
+  animation: journey-marker-pulse 2s ease-in-out infinite;
+}
+
+@keyframes journey-marker-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
