@@ -11,4 +11,8 @@ export interface JourneyStop {
     coordinates: [number, number];
     title: string;
     description: string;
+
+    // Portfolio information (Optional)
+    technology?: string[];
+    projectUrl?: string;
 }
