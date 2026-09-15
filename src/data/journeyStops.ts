@@ -32,8 +32,8 @@ export const journeyStops: JourneyStop[] = [
         name: "Crystal Lake Recreation Area",
         type: "destination",
         coordinates: [-117.8300, 34.3220],
-        title: "The Destination",
+        title: "Journey Complete",
         description:
-        "A mountain destination in the San Gabriel Mountains representing exploration, growth, and my future aspirations in geospatial technology.",
+          "Crystal Lake represents the destination of this journey and the continued path toward integrating geospatial technology, environmental science, and software engineering.",
     },
 ];

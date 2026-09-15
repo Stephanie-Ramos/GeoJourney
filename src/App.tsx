@@ -40,7 +40,9 @@ function App() {
             x
           </button>
           <p className="project-panel-label">
-            PORTFOLIO PROJECT
+            {selectedStop.type === "destination"
+            ? "JOURNEY COMPLETE"
+            : "PORTFOLIO PROJECT"}
           </p>
           <h2>{selectedStop.title}</h2>
           <h3>{selectedStop.name}</h3>
@@ -79,15 +81,17 @@ function App() {
               View Project
             </a>
           )}
-          <button
-            className="continue-journey-button"
-            onClick={() => {
-              setSelectedStop(null);
-              setResumeJourney((value) => value + 1);
-            }}
-          >
-            Continue Journey
-          </button>
+          {selectedStop.type !== "destination" && (
+            <button
+              className="continue-journey-button"
+              onClick={() => {
+                setSelectedStop(null);
+                setResumeJourney((value) => value + 1);
+              }}
+            >
+              Continue Journey
+            </button>
+          )}
         </aside>
       )}
     </main>

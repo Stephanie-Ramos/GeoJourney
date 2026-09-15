@@ -76,6 +76,15 @@ function JourneyMap({
     (stop) => stop.id === "guardrail-dashboard"
   );
 
+  const destinationStop = journeyStops.find(
+    (stop) => stop.id === "crystal-lake"
+  );
+
+  if (!destinationStop) {
+    console.error("Crystal Lake destination stop not found.");
+    return;
+  }
+
   if (!guardrailStop) {
     console.error(
       "Guardrail Dashboard stop not found."
@@ -170,6 +179,23 @@ function JourneyMap({
       onStopSelect(guardrailStop); 
       
     // This allows us to call animateRoute() again when the user presses Continue Journey
+      animationStartedRef.current = false;
+
+      return;
+    }
+
+    // If we reached Guardrail, open project panel and pause
+    // If we reached Crystal Lake, open destination panel and stop 
+    // Otherwise, continue animation
+    if (
+      segmentIndexRef.current < coordinates.length &&
+      coordinates[segmentIndexRef.current][0] ===
+        destinationStop.coordinates[0] &&
+      coordinates[segmentIndexRef.current][1] ===
+        destinationStop.coordinates[1]
+    ) {
+      onStopSelect(destinationStop);
+
       animationStartedRef.current = false;
 
       return;
