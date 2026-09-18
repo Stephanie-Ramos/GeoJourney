@@ -323,16 +323,22 @@ function JourneyMap({
     });
 
     journeyStops.forEach((stop) => {
-      const marker = new Marker()
+      const markerElement = document.createElement("div");
+
+      markerElement.className = `stop-marker stop-marker-${stop.type}`;
+      markerElement.setAttribute("role", "button");
+      markerElement.setAttribute(
+        "aria-label",
+        `Open ${stop.name}`
+      );
+      markerElement.tabIndex = 0;
+
+      new Marker({
+        element: markerElement,
+        anchor:"center", 
+      })
         .setLngLat(stop.coordinates)
         .addTo(map);
-
-      const markerElement = marker.getElement();
-
-    // make the marker interactive 
-      markerElement.style.cursor = "pointer";
-    // receive mouse events
-      markerElement.style.pointerEvents = "auto";
 
       markerElement.addEventListener("click", (event) => {
         // prevents the click from continuing down to the map's interaction handling 

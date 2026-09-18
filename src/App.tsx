@@ -4,6 +4,7 @@ import { Map } from "maplibre-gl";
 import JourneyMap from "./components/Map/JourneyMap";
 import BeginningSection from "./components/Intro/BeginningSection";
 import type { JourneyStop } from "./types/journey";
+import "./index.css";
 
 function App() {
   // A function that updates map 

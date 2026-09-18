@@ -152,6 +152,39 @@ body {
   }
 }
 
+/* Marker Styles for Each Destination Type */
+.maplibregl-marker.stop-marker {
+  width: 30px;
+  height: 30px;
+
+  border: 3px solid white;
+  border-radius: 50%;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.stop-marker-starting-point {
+  background-color: #008000;
+}
+
+.stop-marker-portfolio {
+  background-color: #2563eb;
+}
+
+.stop-marker-destination {
+  width: 34px;
+  height: 34px;
+
+  background-color: #d97706;
+
+  border-radius: 50%;
+}
+
 /* Portfolio: Project Panel Link  */
 .project-panel {
   position: fixed;
@@ -194,3 +227,4 @@ body {
 .continue-journey-button:hover {
   background: #dddddd;
 }
+
