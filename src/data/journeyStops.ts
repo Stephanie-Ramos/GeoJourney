@@ -25,7 +25,21 @@ export const journeyStops: JourneyStop[] = [
             "Survey123",
             "QuickCapture",
             "ArcGIS Dashboards", 
-        ]
+        ],
+        projectUrl: "YOUR_PROJECT_URL",
+    },
+    {
+        id: "sedona-lightning",
+        name: "Sedona Lightning Strikes Web App",
+        type: "portfolio",
+        coordinates: [-117.95, 34.10],
+        title: "Interactive Web Mapping",
+        description:
+            "An interactive web mapping project exploring lightning strike data through spatial visualization and web-based GIS.",
+        technology: [
+            "",
+        ],
+        projectUrl: "YOUR_PROJECT_URL",
     },
     {
         id: "crystal-lake",
