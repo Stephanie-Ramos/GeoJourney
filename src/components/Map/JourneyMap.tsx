@@ -47,6 +47,8 @@ function JourneyMap({
   // Remembers which route segment the journey is currently on
   const segmentIndexRef = useRef(0);
 
+  const guardrailStopReachedRef = useRef(false);
+
   // Keep the ref synchronized with React state
   useEffect(() => {
     journeyStartedRef.current = journeyStarted;
@@ -181,7 +183,12 @@ function JourneyMap({
         )
     );
 
-    if (distanceToGuardrail < stopThreshold) {
+    if (
+      !guardrailStopReachedRef.current &&
+      distanceToGuardrail < stopThreshold
+    ) {
+      guardrailStopReachedRef.current = true;
+
       onStopSelect(guardrailStop);
 
       animationStartedRef.current = false;
