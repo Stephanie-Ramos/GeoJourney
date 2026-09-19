@@ -93,7 +93,9 @@ function JourneyMap({
     return;
   }
 
-  const segmentDuration = 50;
+  const segmentDuration = 25;
+
+  const stopThreshold = 0.002;
 
   const animateSegment = (startTime: number) => {
     const currentTime = performance.now();
@@ -168,17 +170,20 @@ function JourneyMap({
 
     // Check whether the moving marker
     // has reached the Guardrail Dashboard stop
-    if (
-      segmentIndexRef.current < coordinates.length &&
-      coordinates[segmentIndexRef.current][0] ===
-        guardrailStop.coordinates[0] &&
-      coordinates[segmentIndexRef.current][1] ===
-        guardrailStop.coordinates[1]
+    const distanceToGuardrail = Math.sqrt(
+      Math.pow(
+        markerPosition[0] - guardrailStop.coordinates[0],
+        2
+      ) +
+        Math.pow(
+          markerPosition[1] - guardrailStop.coordinates[1],
+          2
+        )
+    );
 
-    ) {
-      onStopSelect(guardrailStop); 
-      
-    // This allows us to call animateRoute() again when the user presses Continue Journey
+    if (distanceToGuardrail < stopThreshold) {
+      onStopSelect(guardrailStop);
+
       animationStartedRef.current = false;
 
       return;
