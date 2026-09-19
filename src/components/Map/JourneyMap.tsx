@@ -93,7 +93,7 @@ function JourneyMap({
     return;
   }
 
-  const segmentDuration = 1000;
+  const segmentDuration = 50;
 
   const animateSegment = (startTime: number) => {
     const currentTime = performance.now();
