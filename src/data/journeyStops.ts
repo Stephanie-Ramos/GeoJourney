@@ -32,7 +32,7 @@ export const journeyStops: JourneyStop[] = [
         id: "sedona-lightning",
         name: "Sedona Lightning Strikes Web App",
         type: "portfolio",
-        coordinates: [-117.95, 34.10],
+        coordinates: [ -117.949959, 34.143412], 
         title: "Interactive Web Mapping",
         description:
             "An interactive web mapping project exploring lightning strike data through spatial visualization and web-based GIS.",

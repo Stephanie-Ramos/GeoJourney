@@ -48,6 +48,7 @@ function JourneyMap({
   const segmentIndexRef = useRef(0);
 
   const guardrailStopReachedRef = useRef(false);
+  const sedonaStopReachedRef = useRef(false);
 
   // Keep the ref synchronized with React state
   useEffect(() => {
@@ -78,20 +79,26 @@ function JourneyMap({
     (stop) => stop.id === "guardrail-dashboard"
   );
 
+  const sedonaStop = journeyStops.find(
+  (stop) => stop.id === "sedona-lightning"
+  );
+
   const destinationStop = journeyStops.find(
     (stop) => stop.id === "crystal-lake"
   );
 
-  if (!destinationStop) {
-    console.error("Crystal Lake destination stop not found.");
+  if (!guardrailStop) {
+    console.error("Guardrail Dashboard stop not found.");
     return;
   }
 
-  if (!guardrailStop) {
-    console.error(
-      "Guardrail Dashboard stop not found."
-    );
+  if (!sedonaStop) {
+    console.error("Sedona stop not found.");
+    return;
+  }
 
+  if (!destinationStop) {
+    console.error("Crystal Lake destination stop not found.");
     return;
   }
 
@@ -195,6 +202,31 @@ function JourneyMap({
 
       return;
     }
+
+    const distanceToSedona = Math.sqrt(
+      Math.pow(
+        markerPosition[0] - sedonaStop.coordinates[0],
+        2
+      ) +
+        Math.pow(
+          markerPosition[1] - sedonaStop.coordinates[1],
+          2
+        )
+    );
+
+    if (
+      !sedonaStopReachedRef.current &&
+      distanceToSedona < stopThreshold
+    ) {
+      sedonaStopReachedRef.current = true;
+
+      onStopSelect(sedonaStop);
+
+      animationStartedRef.current = false;
+
+      return;
+    }
+    
 
     const distanceToDestination = Math.sqrt(
       Math.pow(
