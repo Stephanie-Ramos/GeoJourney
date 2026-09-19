@@ -196,16 +196,18 @@ function JourneyMap({
       return;
     }
 
-    // If we reached Guardrail, open project panel and pause
-    // If we reached Crystal Lake, open destination panel and stop 
-    // Otherwise, continue animation
-    if (
-      segmentIndexRef.current < coordinates.length &&
-      coordinates[segmentIndexRef.current][0] ===
-        destinationStop.coordinates[0] &&
-      coordinates[segmentIndexRef.current][1] ===
-        destinationStop.coordinates[1]
-    ) {
+    const distanceToDestination = Math.sqrt(
+      Math.pow(
+        markerPosition[0] - destinationStop.coordinates[0],
+        2
+      ) +
+        Math.pow(
+          markerPosition[1] - destinationStop.coordinates[1],
+          2
+        )
+    );
+
+    if (distanceToDestination < stopThreshold) {
       onStopSelect(destinationStop);
 
       animationStartedRef.current = false;
