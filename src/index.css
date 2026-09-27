@@ -247,3 +247,10 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
+.elevation-profile-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.75rem;
+}
+
