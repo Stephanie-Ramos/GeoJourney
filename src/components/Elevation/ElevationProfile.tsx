@@ -98,6 +98,22 @@ function ElevationProfile() {
         role="img"
         aria-label="Elevation profile of the journey route"
       >
+        <text
+          x="0"
+          y="20"
+          fontSize="12"
+        >
+          {Math.round(maximumElevation)} m
+        </text>
+
+        <text
+          x="0"
+          y={chartHeight - 5}
+          fontSize="12"
+        >
+          {Math.round(minimumElevation)} m
+        </text>
+
         <polyline
           points={points.join(" ")}
           fill="none"
