@@ -1,5 +1,9 @@
 import { journeyRoute } from "../../data/journeyRoute";
 
+interface ElevationProfileProps {
+  progress: number;
+}
+
 function calculateDistance(
   start: [number, number],
   end: [number, number]
@@ -28,7 +32,9 @@ function calculateDistance(
   return earthRadius * c;
 }
 
-function ElevationProfile() {
+function ElevationProfile({
+  progress,
+}: ElevationProfileProps) {
   const coordinates = journeyRoute.geometry.coordinates;
 
   const routePoints = coordinates
@@ -63,6 +69,8 @@ function ElevationProfile() {
 
   const totalDistance =
     distances[distances.length - 1];
+  
+  const currentDistance = totalDistance * progress;
 
   const chartWidth = 700;
   const chartHeight = 160;
@@ -86,6 +94,11 @@ function ElevationProfile() {
 
     return `${x},${y}`;
   });
+
+  const currentX =
+  padding +
+  (currentDistance / totalDistance) *
+    (chartWidth - padding * 2);
 
   return (
     <section className="elevation-profile">
@@ -120,6 +133,13 @@ function ElevationProfile() {
           stroke="currentColor"
           strokeWidth="3"
         />
+
+        <circle
+          cx={currentX}
+          cy={chartHeight / 2}
+          r="6"
+          fill="currentColor"
+        />        
       </svg>
 
       <div className="elevation-profile-labels">

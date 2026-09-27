@@ -32,7 +32,7 @@ function App() {
       {/* BeginningSection doesnt have a map property */}
       <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
       <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect}/>
-      <ElevationProfile />
+      <ElevationProfile progress={0} />
       {selectedStop && (
         <aside className="project-panel">
           <button 
