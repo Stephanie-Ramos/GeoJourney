@@ -21,6 +21,7 @@ interface JourneyMapProps {
   journeyStarted: boolean;
   resumeJourney: number;
   onStopSelect: (stop: JourneyStop) => void;
+  onProgressChange: (progress: number) => void;
 }
 
 function JourneyMap({
@@ -28,6 +29,7 @@ function JourneyMap({
   journeyStarted,
   resumeJourney,
   onStopSelect,
+  onProgressChange,
 }: JourneyMapProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
@@ -137,6 +139,12 @@ function JourneyMap({
       longitude,
       latitude,
     ];
+
+    const overallProgress =
+      (segmentIndexRef.current + progress) /
+      (coordinates.length - 1);
+
+    onProgressChange(overallProgress);
 
     if (journeyMarkerRef.current) {
       journeyMarkerRef.current.setLngLat(
@@ -263,7 +271,7 @@ function JourneyMap({
 
   // Start the first segment
   animateSegment(performance.now());
-  }, [onStopSelect]);
+  }, [onStopSelect, onProgressChange]);
 
   // Create the MapLibre map
   useEffect(() => {

@@ -15,6 +15,8 @@ function App() {
 
   const [resumeJourney, setResumeJourney] = useState(0);
 
+  const [progress, setProgress] = useState(0);
+
   const [selectedStop, setSelectedStop] = useState<JourneyStop | null>(null); 
 
   const handleStopSelect = useCallback(
@@ -31,8 +33,8 @@ function App() {
     <main className="app">
       {/* BeginningSection doesnt have a map property */}
       <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
-      <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect}/>
-      <ElevationProfile progress={0} />
+      <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect} onProgressChange={setProgress}/>
+      <ElevationProfile progress={progress} />
       {selectedStop && (
         <aside className="project-panel">
           <button 
