@@ -99,6 +99,25 @@ function ElevationProfile({
   padding +
   (currentDistance / totalDistance) *
     (chartWidth - padding * 2);
+  
+  const currentElevationIndex = distances.findIndex(
+  (distance) => distance >= currentDistance
+  );
+
+  const currentIndex =
+    currentElevationIndex === -1
+      ? distances.length - 1
+      : currentElevationIndex;
+
+  const currentElevation =
+    elevations[currentIndex];
+
+  const currentY =
+    chartHeight -
+    padding -
+    ((currentElevation - minimumElevation) /
+      elevationRange) *
+      (chartHeight - padding * 2);
 
   return (
     <section className="elevation-profile">
@@ -136,7 +155,7 @@ function ElevationProfile({
 
         <circle
           cx={currentX}
-          cy={chartHeight / 2}
+          cy={currentY}
           r="6"
           fill="currentColor"
         />        
