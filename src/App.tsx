@@ -5,6 +5,7 @@ import JourneyMap from "./components/Map/JourneyMap";
 import BeginningSection from "./components/Intro/BeginningSection";
 import type { JourneyStop } from "./types/journey";
 import "./index.css";
+import ElevationProfile from "./components/Elevation/ElevationProfile";
 
 function App() {
   // A function that updates map 
@@ -31,6 +32,7 @@ function App() {
       {/* BeginningSection doesnt have a map property */}
       <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
       <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect}/>
+      <ElevationProfile />
       {selectedStop && (
         <aside className="project-panel">
           <button 
