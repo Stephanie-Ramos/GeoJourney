@@ -101,7 +101,7 @@ function ElevationProfile({
     (chartWidth - padding * 2);
   
   const currentElevationIndex = distances.findIndex(
-  (distance) => distance >= currentDistance
+    (distance) => distance >= currentDistance
   );
 
   const currentIndex =
@@ -109,8 +109,31 @@ function ElevationProfile({
       ? distances.length - 1
       : currentElevationIndex;
 
+  const previousIndex =
+    currentIndex === 0
+      ? 0
+      : currentIndex - 1;
+
+  const previousDistance =
+    distances[previousIndex];
+
+  const currentPointDistance =
+    distances[currentIndex];
+
+  const distanceRange =
+    currentPointDistance - previousDistance;
+
+  const elevationProgress =
+    distanceRange === 0
+      ? 0
+      : (currentDistance - previousDistance) /
+        distanceRange;
+
   const currentElevation =
-    elevations[currentIndex];
+    elevations[previousIndex] +
+    (elevations[currentIndex] -
+      elevations[previousIndex]) *
+      elevationProgress;
 
   const currentY =
     chartHeight -
