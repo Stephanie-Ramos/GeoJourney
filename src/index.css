@@ -255,3 +255,20 @@ body {
   font-size: 0.75rem;
 }
 
+.current-elevation {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.current-elevation span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.current-elevation strong {
+  font-size: 1rem;
+}
+
