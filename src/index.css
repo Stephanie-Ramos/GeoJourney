@@ -277,3 +277,24 @@ body {
 .journey-progress {
   font-weight: 700;
 }
+
+@media (max-width: 600px) {
+  .elevation-profile {
+    width: calc(100vw - 30px);
+    bottom: 15px;
+    padding: 15px;
+  }
+
+  .elevation-profile-labels {
+    gap: 8px;
+    font-size: 0.65rem;
+  }
+
+  .current-elevation {
+    font-size: 0.8rem;
+  }
+
+  .current-elevation strong {
+    font-size: 0.9rem;
+  }
+}
