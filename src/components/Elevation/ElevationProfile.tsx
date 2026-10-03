@@ -75,6 +75,9 @@ function ElevationProfile({
   const currentDistanceMiles =
   currentDistance / 1609.34;
 
+  const progressPercentage =
+  progress * 100;
+
   const chartWidth = 700;
   const chartHeight = 160;
   const padding = 20;
@@ -204,6 +207,10 @@ function ElevationProfile({
       <div className="elevation-profile-labels">
         <span>
           {currentDistanceMiles.toFixed(1)} mi traveled
+        </span>
+
+        <span>
+          {progressPercentage.toFixed(0)}% complete
         </span>
 
         <span>
