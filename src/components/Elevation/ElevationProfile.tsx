@@ -75,6 +75,13 @@ function ElevationProfile({
   const currentDistanceMiles =
   currentDistance / 1609.34;
 
+  const totalDistanceMiles =
+    totalDistance / 1609.34;
+
+  const remainingDistanceMiles =
+    totalDistanceMiles -
+    currentDistanceMiles;
+
   const progressPercentage =
   progress * 100;
 
@@ -222,7 +229,7 @@ function ElevationProfile({
         </span>
 
         <span>
-          {(totalDistance / 1609.34).toFixed(1)} mi total
+          {remainingDistanceMiles.toFixed(1)} mi remaining
         </span>
       </div>
     </section>
