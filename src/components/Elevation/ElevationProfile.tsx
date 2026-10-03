@@ -224,7 +224,7 @@ function ElevationProfile({
           {currentDistanceMiles.toFixed(1)} mi traveled
         </span>
 
-        <span>
+        <span className="journey-progress">
           {progressPercentage.toFixed(0)}% complete
         </span>
 
