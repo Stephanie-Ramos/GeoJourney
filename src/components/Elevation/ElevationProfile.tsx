@@ -174,6 +174,17 @@ function ElevationProfile({
           fill="none"
           stroke="currentColor"
           strokeWidth="3"
+          opacity="0.25"
+        />
+
+        <polyline
+          points={points
+            .filter((_, index) => distances[index] <= currentDistance)
+            .map((point) => point)
+            .join(" ")}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
         />
 
         <circle
