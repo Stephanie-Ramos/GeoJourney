@@ -250,6 +250,7 @@ body {
 .elevation-profile-labels {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 8px;
   font-size: 0.75rem;
 }

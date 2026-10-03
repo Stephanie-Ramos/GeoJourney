@@ -140,6 +140,9 @@ function ElevationProfile({
     (elevations[currentIndex] -
       elevations[previousIndex]) *
       elevationProgress;
+  
+  const currentElevationMeters =
+    Math.round(currentElevation);
 
   const currentY =
     chartHeight -
@@ -203,6 +206,11 @@ function ElevationProfile({
           fill="currentColor"
         />        
       </svg>
+
+      <div className="current-elevation">
+        <span>Current Elevation</span>
+        <strong>{currentElevationMeters} m</strong>
+      </div>
 
       <div className="elevation-profile-labels">
         <span>
