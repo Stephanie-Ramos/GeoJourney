@@ -178,10 +178,13 @@ function ElevationProfile({
         />
 
         <polyline
-          points={points
-            .filter((_, index) => distances[index] <= currentDistance)
-            .map((point) => point)
-            .join(" ")}
+          points={[
+            ...points.filter(
+              (_, index) =>
+                distances[index] <= currentDistance
+            ),
+            `${currentX},${currentY}`,
+          ].join(" ")}
           fill="none"
           stroke="currentColor"
           strokeWidth="4"
