@@ -321,3 +321,18 @@ body {
     font-size: 0.9rem;
   }
 }
+
+/* Mobile Media for Project Panel Responsiveness */
+@media (max-width: 600px) {
+  .project-panel {
+    top: auto;
+    right: 15px;
+    bottom: 230px;
+    left: 15px;
+    width: auto;
+    max-width: none;
+    max-height: 30vh;
+    overflow-y: auto;
+    padding: 20px;
+  }
+}
