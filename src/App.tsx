@@ -1,11 +1,14 @@
-import { useState, useCallback } from "react";
+import { lazy, Suspense, useState, useCallback } from "react";
 import { Map } from "maplibre-gl";
 
-import JourneyMap from "./components/Map/JourneyMap";
 import BeginningSection from "./components/Intro/BeginningSection";
 import type { JourneyStop } from "./types/journey";
 import "./index.css";
 import ElevationProfile from "./components/Elevation/ElevationProfile";
+
+const JourneyMap = lazy(
+  () => import("./components/Map/JourneyMap")
+);
 
 function App() {
   // A function that updates map 
@@ -33,7 +36,19 @@ function App() {
     <main className="app">
       {/* BeginningSection doesnt have a map property */}
       <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
-      <JourneyMap onMapReady={setMap} journeyStarted={journeyStarted} resumeJourney={resumeJourney} onStopSelect={handleStopSelect} onProgressChange={setProgress}/>
+      
+      <Suspense
+        fallback={<div className="map-loading">Loading map...</div>}
+      >
+        <JourneyMap
+          onMapReady={setMap}
+          journeyStarted={journeyStarted}
+          resumeJourney={resumeJourney}
+          onStopSelect={handleStopSelect}
+          onProgressChange={setProgress}
+        />
+      </Suspense>
+
       <ElevationProfile progress={progress} />
       {selectedStop && (
         <aside className="project-panel">
