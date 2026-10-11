@@ -278,24 +278,33 @@ body {
   font-weight: 700;
 }
 
+
 @media (max-width: 600px) {
   .elevation-profile {
-    width: calc(100vw - 30px);
-    bottom: 15px;
-    padding: 15px;
+    width: calc(100vw - 24px);
+    bottom: 12px;
+    padding: 10px 12px;
+  }
+
+  .elevation-profile svg {
+    height: 55px;
   }
 
   .elevation-profile-labels {
-    gap: 8px;
-    font-size: 0.65rem;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 0.6rem;
   }
 
   .current-elevation {
-    font-size: 0.8rem;
+    margin-top: 6px;
+    padding-top: 6px;
+    margin-bottom: 0;
+    font-size: 0.65rem;
   }
 
   .current-elevation strong {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 }
 
