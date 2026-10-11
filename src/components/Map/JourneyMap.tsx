@@ -146,11 +146,17 @@ function JourneyMap({
 
     onProgressChange(overallProgress);
 
+    
     if (journeyMarkerRef.current) {
-      journeyMarkerRef.current.setLngLat(
-        markerPosition
-      );
+      journeyMarkerRef.current.setLngLat(markerPosition);
+
+      map.easeTo({
+        center: markerPosition,
+        duration: 500,
+        essential: true,
+      });
     }
+
 
     // Build the route currently visible
     const animatedCoordinates = [
