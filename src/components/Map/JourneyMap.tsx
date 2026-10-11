@@ -46,8 +46,6 @@ function JourneyMap({
 
   const journeyMarkerRef = useRef<Marker | null>(null);
 
-  const lastCameraUpdateRef = useRef(0);
-
   // Remembers which route segment the journey is currently on
   const segmentIndexRef = useRef(0);
 
