@@ -46,6 +46,8 @@ function JourneyMap({
 
   const journeyMarkerRef = useRef<Marker | null>(null);
 
+  const lastCameraUpdateRef = useRef(0);
+
   // Remembers which route segment the journey is currently on
   const segmentIndexRef = useRef(0);
 
@@ -104,7 +106,7 @@ function JourneyMap({
     return;
   }
 
-  const segmentDuration = 25;
+  const segmentDuration = 100;
 
   const stopThreshold = 0.002;
 
@@ -145,17 +147,14 @@ function JourneyMap({
       (coordinates.length - 1);
 
     onProgressChange(overallProgress);
-
+    
     
     if (journeyMarkerRef.current) {
       journeyMarkerRef.current.setLngLat(markerPosition);
 
-      map.easeTo({
-        center: markerPosition,
-        duration: 500,
-        essential: true,
-      });
+      map.setCenter(markerPosition);
     }
+
 
 
     // Build the route currently visible
