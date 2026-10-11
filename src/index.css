@@ -298,3 +298,26 @@ body {
     font-size: 0.9rem;
   }
 }
+
+/* Beginning Panel for Mobile */
+@media (max-width: 600px) {
+  .beginning-section {
+    width: 100%;
+    min-height: auto;
+    max-height: 45vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .beginning-content {
+    padding: 36px 20px 20px;
+  }
+
+  .beginning-section h1 {
+    font-size: 1.7rem;
+  }
+
+  .beginning-description {
+    font-size: 0.9rem;
+  }
+}
