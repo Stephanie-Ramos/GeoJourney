@@ -229,20 +229,20 @@ body {
 }
 
 /* Add Elevation Panel Styling */
-.elevation-profile {
-  position: fixed;
-  z-index: 15;
-  left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%);
 
-  width: min(700px, calc(100vw - 60px));
+.elevation-profile {
+  position: absolute;
+  z-index: 15;
+  right: 30px;
+  bottom: 30px;
+  left: auto;
+  transform: none;
+  width: 500px;
+  max-width: calc(100vw - 60px);
   padding: 20px;
   box-sizing: border-box;
-
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(10px);
-
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
