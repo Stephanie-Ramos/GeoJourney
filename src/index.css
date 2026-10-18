@@ -354,6 +354,12 @@ body {
   }
 }
 
+@media (max-width: 400px) {
+  .beginning-buttons {
+    flex-wrap: wrap;
+  }
+}
+
 /* About panel: scrolls when the text is long */
 .about-panel {
   max-height: calc(100vh - 60px);
