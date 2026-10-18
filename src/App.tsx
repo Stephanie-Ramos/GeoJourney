@@ -22,6 +22,8 @@ function App() {
 
   const [selectedStop, setSelectedStop] = useState<JourneyStop | null>(null); 
 
+  const [showAbout, setShowAbout] = useState(false);
+
   const handleStopSelect = useCallback(
   (stop: JourneyStop) => {
     console.log("Selected stop:", stop);
@@ -35,7 +37,11 @@ function App() {
     // Here, we use the main tag to identify the central and unique core content of the webpage
     <main className="app">
       {/* BeginningSection doesnt have a map property */}
-      <BeginningSection map={map} onBeginJourney={() => setJourneyStarted(true)}/>
+      <BeginningSection
+        map={map}
+        onBeginJourney={() => setJourneyStarted(true)}
+        onOpenAbout={() => setShowAbout(true)}
+      />
       
       <Suspense
         fallback={<div className="map-loading">Loading map...</div>}
@@ -50,6 +56,22 @@ function App() {
       </Suspense>
 
       <ElevationProfile progress={progress} />
+
+      {showAbout && (
+        <aside className="project-panel" role="dialog" aria-label="About this journey">
+          <button
+            className="project-panel-close"
+            onClick={() => setShowAbout(false)}
+            aria-label="Close about panel"
+          >
+            x
+          </button>
+          <p className="project-panel-label">ABOUT THIS JOURNEY</p>
+          <h2>The Route</h2>
+          <p>Your story text goes here.</p>
+        </aside>
+      )}
+
       {selectedStop && (
         <aside className="project-panel">
           <button 
@@ -114,6 +136,7 @@ function App() {
           )}
         </aside>
       )}
+      
     </main>
   );
 }

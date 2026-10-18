@@ -3,9 +3,10 @@ import type { Map } from "maplibre-gl";
 interface BeginningSectionProps {
     map: Map | null;
     onBeginJourney: () => void;
+    onOpenAbout: () => void;
 }
 
-function BeginningSection({ map, onBeginJourney }: BeginningSectionProps) {
+function BeginningSection({ map, onBeginJourney, onOpenAbout }: BeginningSectionProps) {
     const handleBeginJourney = () => {
         if (!map) return;
 
@@ -43,6 +44,12 @@ function BeginningSection({ map, onBeginJourney }: BeginningSectionProps) {
                     <p>Downey, California</p>
                 </div>
 
+                {/* NEW: milestone note, placed right before the button */}
+                <p className="journey-note">
+                    Each stop is a milestone, a completed project and the
+                    skills it taught me, not a physical location.
+                </p>
+
                 {/* Button */}
                 <button className="begin-journey-button"
                     onClick={handleBeginJourney}
@@ -50,6 +57,12 @@ function BeginningSection({ map, onBeginJourney }: BeginningSectionProps) {
                 >
                     Begin the Journey
                 </button>
+
+                {/* NEW: link to the fuller story */}
+                <button className="about-link" onClick={onOpenAbout}>
+                    About this journey
+                </button>
+
             </div>
         </section>
     );
