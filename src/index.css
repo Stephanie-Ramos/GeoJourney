@@ -1,7 +1,3 @@
-:root {
-  --elevation-height: 200px;
-}
-
 html, 
 body, 
 #root {
@@ -15,33 +11,28 @@ body {
 }
 
 .app {
+  display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
-.map-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: var(--elevation-height);
-  width: 100%;
-  height: calc(100vh - var(--elevation-height));
-}
 
 /* BeginningSection: The section */
 .beginning-section {
-  position: absolute;
-  /* This controls the vertical stacking order of elements on a webpage: 
+  position: static;
+  /* This controls the vertical stacking order of elements on a webpage:
   This will be placed in front of 9 elements */
+  flex: none;
   z-index: 10;
   /* This will show at the top left corner */
   top: 0;
   left: 0;
 
   width: 420px;
+  height:100%;
   /* viewport height: the total height of the browser's viewport */
-  height: calc(100vh - var(--elevation-height, 170px));
   min-height: 0;
   overflow-y: auto;
 
@@ -56,6 +47,55 @@ body {
 
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
+}
+
+.main-column {
+  flex: 1;
+  min-width: 0;           /* lets the column shrink instead of overflowing */
+  display: flex;
+  flex-direction: column;
+}
+
+.map-section {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.map-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.elevation-profile {
+  position: static;
+  flex: none;             /* keeps its natural height */
+  width: auto;
+  max-width: none;
+  padding: 16px 30px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.elevation-profile svg {
+  width: 100%;
+}
+
+.project-panel {
+  position: absolute;     /* positions inside the map area */
+  z-index: 20;
+  top: 30px;
+  right: 30px;
+  /* keep the rest of your existing project-panel rule */
+}
+
+.about-panel {
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
 }
 
 /* BeginningSection: The div tag */
@@ -245,30 +285,6 @@ body {
   background: #dddddd;
 }
 
-/* Add Elevation Panel Styling */
-.elevation-dock {
-  position: fixed;
-  z-index: 15;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.elevation-profile {
-  position: static;
-  width: auto;
-  max-width: none;
-  padding: 16px 30px;
-  box-sizing: border-box;
-  background: #ffffff;
-  border-radius: 0;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.elevation-profile svg {
-  width: 100%;
-}
-
 .elevation-profile-labels {
   display: flex;
   justify-content: space-between;
@@ -302,10 +318,6 @@ body {
 
 
 @media (max-width: 600px) {
-    :root {
-    --elevation-height: 190px;
-  }
-
   .elevation-profile {
     padding: 10px 12px;
   }

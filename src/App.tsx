@@ -57,99 +57,99 @@ function App() {
 
   return (
     // Here, we use the main tag to identify the central and unique core content of the webpage
-    <main className="app">
-      <BeginningSection
-        map={map}
-        onBeginJourney={() => setJourneyStarted(true)}
-        onOpenAbout={() => {
-          setSelectedStop(null);
-          setShowAbout(true);
-        }}
-      />
+  <main className="app">
+    <BeginningSection
+      map={map}
+      onBeginJourney={() => setJourneyStarted(true)}
+      onOpenAbout={() => {
+        setSelectedStop(null);
+        setShowAbout(true);
+      }}
+    />
 
-      <Suspense
-        fallback={<div className="map-loading">Loading map...</div>}
-      >
-        <JourneyMap
-          onMapReady={setMap}
-          journeyStarted={journeyStarted}
-          resumeJourney={resumeJourney}
-          onStopSelect={handleStopSelect}
-          onProgressChange={setProgress}
-        />
-      </Suspense>
+    <div className="main-column">
+      <div className="map-section">
+        <Suspense fallback={<div className="map-loading">Loading map...</div>}>
+          <JourneyMap
+            onMapReady={setMap}
+            journeyStarted={journeyStarted}
+            resumeJourney={resumeJourney}
+            onStopSelect={handleStopSelect}
+            onProgressChange={setProgress}
+          />
+        </Suspense>
 
-      <div ref={elevationRef} className="elevation-dock">
-        <ElevationProfile progress={progress} />
+        {showAbout && <AboutPanel onClose={() => setShowAbout(false)} />}
+
+        {selectedStop && (
+          <aside className="project-panel">
+            <button
+              className="project-panel-close"
+              onClick={() => setSelectedStop(null)}
+              aria-label="Close project panel"
+            >
+              x
+            </button>
+            <p className="project-panel-label">
+              {selectedStop.type === "destination"
+                ? "JOURNEY COMPLETE"
+                : "PORTFOLIO PROJECT"}
+            </p>
+            <h2>{selectedStop.title}</h2>
+            <h3>{selectedStop.name}</h3>
+            <p className="project-panel-description">
+              {selectedStop.description}
+            </p>
+            {selectedStop.technology &&
+              selectedStop.technology.length > 0 && (
+                <div className="project-technologies">
+                  <p className="technology-label">
+                    TECHNOLOGIES
+                  </p>
+
+                  <div className="technology-list">
+                    {selectedStop.technology.map(
+                      (technology) => (
+                        <span
+                          key={technology}
+                          className="technology-tag"
+                        >
+                          {technology}
+                        </span>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {selectedStop.projectUrl && (
+              <a
+                href={selectedStop.projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-panel-link"
+              >
+                View Project
+              </a>
+            )}
+            {selectedStop.type !== "destination" && (
+              <button
+                className="continue-journey-button"
+                onClick={() => {
+                  setSelectedStop(null);
+                  setResumeJourney((value) => value + 1);
+                }}
+              >
+                Continue Journey
+              </button>
+            )}
+          </aside>
+        )}
       </div>
 
-      {showAbout && <AboutPanel onClose={() => setShowAbout(false)} />}
-
-      {selectedStop && (
-        <aside className="project-panel">
-          <button
-            className="project-panel-close"
-            onClick={() => setSelectedStop(null)}
-            aria-label="Close project panel"
-          >
-            x
-          </button>
-          <p className="project-panel-label">
-            {selectedStop.type === "destination"
-              ? "JOURNEY COMPLETE"
-              : "PORTFOLIO PROJECT"}
-          </p>
-          <h2>{selectedStop.title}</h2>
-          <h3>{selectedStop.name}</h3>
-          <p className="project-panel-description">
-            {selectedStop.description}
-          </p>
-          {selectedStop.technology &&
-            selectedStop.technology.length > 0 && (
-              <div className="project-technologies">
-                <p className="technology-label">
-                  TECHNOLOGIES
-                </p>
-
-                <div className="technology-list">
-                  {selectedStop.technology.map(
-                    (technology) => (
-                      <span
-                        key={technology}
-                        className="technology-tag"
-                      >
-                        {technology}
-                      </span>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
-
-          {selectedStop.projectUrl && (
-            <a
-              href={selectedStop.projectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-panel-link"
-            >
-              View Project
-            </a>
-          )}
-          {selectedStop.type !== "destination" && (
-            <button
-              className="continue-journey-button"
-              onClick={() => {
-                setSelectedStop(null);
-                setResumeJourney((value) => value + 1);
-              }}
-            >
-              Continue Journey
-            </button>
-          )}
-        </aside>
-      )}
-    </main>
+      <ElevationProfile progress={progress} />
+    </div>
+  </main>
   );
 }
 
