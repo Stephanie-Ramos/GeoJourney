@@ -100,16 +100,11 @@ body {
   font-size: 0.9rem;
 }
 
-/* BeginningSection button */
-.begin-journey-button {
-  padding: 14px 22px;
-  border: none;
-  border-radius: 4px;
-  background: #222;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
+/* Begin this Journey and About this Journey buttons */
+.beginning-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .begin-journey-button:hover {

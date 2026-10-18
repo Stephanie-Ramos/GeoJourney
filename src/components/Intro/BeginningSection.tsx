@@ -50,19 +50,22 @@ function BeginningSection({ map, onBeginJourney, onOpenAbout }: BeginningSection
                     skills it taught me, not a physical location.
                 </p>
 
-                {/* Button */}
-                <button className="begin-journey-button"
-                    onClick={handleBeginJourney}
-                    disabled={!map}
-                >
-                    Begin the Journey
-                </button>
+                <div className="beginning-buttons">
+                    <button
+                        className="begin-journey-button"
+                        onClick={handleBeginJourney}
+                        disabled={!map}
+                    >
+                        Begin the Journey
+                    </button>
 
-                {/* NEW: link to the fuller story */}
-                <button className="about-link" onClick={onOpenAbout}>
-                    About this journey
-                </button>
-
+                    <button
+                        className="begin-journey-button"
+                        onClick={onOpenAbout}
+                    >
+                        About this Journey
+                    </button>
+                </div>
             </div>
         </section>
     );
