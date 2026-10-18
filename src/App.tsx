@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useCallback } from "react";
+import { lazy, Suspense, useState, useCallback, useEffect, useRef } from "react";
 import { Map } from "maplibre-gl";
 
 import BeginningSection from "./components/Intro/BeginningSection";
@@ -14,6 +14,27 @@ const JourneyMap = lazy(
 function App() {
   // A function that updates map
   const [map, setMap] = useState<Map | null>(null);
+
+  const elevationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = elevationRef.current;
+    if (!el) return;
+
+    const update = () => {
+      document.documentElement.style.setProperty(
+        "--elevation-height",
+        `${el.offsetHeight}px`
+      );
+      map?.resize(); // tells MapLibre its container changed size
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [map]);
+
   // when the user clicks the button then it tells JourneyMap to start the animation
   const [journeyStarted, setJourneyStarted] = useState(false);
 
@@ -58,7 +79,9 @@ function App() {
         />
       </Suspense>
 
-      <ElevationProfile progress={progress} />
+      <div ref={elevationRef} className="elevation-dock">
+        <ElevationProfile progress={progress} />
+      </div>
 
       {showAbout && <AboutPanel onClose={() => setShowAbout(false)} />}
 

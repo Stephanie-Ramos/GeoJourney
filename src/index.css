@@ -1,3 +1,7 @@
+:root {
+  --elevation-height: 200px;
+}
+
 html, 
 body, 
 #root {
@@ -16,11 +20,13 @@ body {
 }
 
 .map-container {
-  width: 100%;
-  height: 100%;
-  /* Make the map explicitly fill the viewport */
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--elevation-height);
+  width: 100%;
+  height: calc(100vh - var(--elevation-height));
 }
 
 /* BeginningSection: The section */
@@ -35,10 +41,12 @@ body {
 
   width: 420px;
   /* viewport height: the total height of the browser's viewport */
-  min-height: 100vh; 
+  height: calc(100vh - var(--elevation-height, 170px));
+  min-height: 0;
+  overflow-y: auto;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   /* This is in all sides */
   padding: 40px;
@@ -53,6 +61,7 @@ body {
 /* BeginningSection: The div tag */
 .beginning-content {
   width: 100%;
+  margin: auto 0;
 }
 
 /* BeginningSection: The p tag */
@@ -66,13 +75,13 @@ body {
 /* BeginningSection: The heading tag */
 .beginning-section h1 {
   margin: 0 0 20px;
-  font-size: 3rem;
+  font-size: 2.4rem;
   line-height: 1.05;
 }
 
 /* BeginningSection: Portfolio Description */
 .beginning-description {
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -237,22 +246,27 @@ body {
 }
 
 /* Add Elevation Panel Styling */
+.elevation-dock {
+  position: fixed;
+  z-index: 15;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
 .elevation-profile {
-  position: absolute;
-  z-index: 15;
-  right: 30px;
-  bottom: 30px;
-  left: auto;
-  transform: none;
-  width: 500px;
-  max-width: calc(100vw - 60px);
-  padding: 20px;
+  position: static;
+  width: auto;
+  max-width: none;
+  padding: 16px 30px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+  border-radius: 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.elevation-profile svg {
+  width: 100%;
 }
 
 .elevation-profile-labels {
@@ -288,14 +302,12 @@ body {
 
 
 @media (max-width: 600px) {
-  .elevation-profile {
-    width: calc(100vw - 24px);
-    bottom: 12px;
-    padding: 10px 12px;
+    :root {
+    --elevation-height: 190px;
   }
 
-  .elevation-profile svg {
-    height: 55px;
+  .elevation-profile {
+    padding: 10px 12px;
   }
 
   .elevation-profile-labels {
@@ -344,7 +356,7 @@ body {
   .project-panel {
     top: auto;
     right: 15px;
-    bottom: 230px;
+    bottom: 200px;
     left: 15px;
     width: auto;
     max-width: none;
