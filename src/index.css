@@ -340,3 +340,54 @@ body {
     padding: 20px;
   }
 }
+
+/* About panel: scrolls when the text is long */
+.about-panel {
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.about-panel p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.about-panel h3 {
+  margin: 24px 0 8px;
+  font-size: 1rem;
+}
+
+.about-panel-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.about-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #dddddd;
+}
+
+.about-panel-actions a {
+  color: #222;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* About panel on mobile: must come after the .project-panel mobile rule */
+@media (max-width: 600px) {
+  .about-panel {
+    top: 15px;
+    bottom: auto;
+    max-height: 70vh;
+  }
+}

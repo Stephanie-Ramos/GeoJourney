@@ -58,7 +58,7 @@ function App() {
       <ElevationProfile progress={progress} />
 
       {showAbout && (
-        <aside className="project-panel" role="dialog" aria-label="About this journey">
+        <aside className="project-panel about-panel" role="dialog" aria-label="About this journey">
           <button
             className="project-panel-close"
             onClick={() => setShowAbout(false)}
