@@ -318,6 +318,29 @@ body {
 
 
 @media (max-width: 600px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .beginning-section {
+    width: 100%;
+    height: auto;
+    max-height: 40vh;
+    padding: 24px 20px;
+  }
+
+  .project-panel {
+    top: auto;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    width: auto;
+    max-width: none;
+    max-height: 40%;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
   .elevation-profile {
     padding: 10px 12px;
   }
