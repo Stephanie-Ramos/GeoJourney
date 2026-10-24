@@ -78,7 +78,10 @@ export const journeyStops: JourneyStop[] = [
             projectUrl: "YOUR_PROJECT_URL",
             },
             {
-                name: "Field Application", description: "", technology: []
+                name: "Field Application", 
+                description: "Sedona Lightning Strikes Web App: an interactive web mapping project exploring lightning strike data through spatial visualization and web-based GIS.", 
+                technology: [],
+                projectUrl: "Your_Project_URL"
             }, 
         ],
     },
