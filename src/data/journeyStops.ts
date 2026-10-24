@@ -56,34 +56,31 @@ export const journeyStops: JourneyStop[] = [
         ],
     },
     {
-        id: "guardrail-dashboard",
-        name: "Guardrail End Treatments Dashboard",
+        id: "web-applied-gis",
+        name: "Web and Applied GIS",
         type: "portfolio",
-        coordinates: [-118.05, 34.03],
-        title: "Dashboard",
+        coordinates: [-117.89, 34.23],
+        title: "Milestone 4",
         description: 
-            "A dashboard in ArcGIS Online is an interactive interface that integrates maps, charts, and other visualizations to provide a comprehensive, real-time view of geographic data and key metrics. This dashboard displays the status of replaced guardrails end treatments on an indicator with a pie chart demonstrating the guardrails along the US routes, gauge of replacement status, and a web map in Dallas.",
-        technology: [
-            "ArcGIS Online",
-            "Field Maps",
-            "Survey123",
-            "QuickCapture",
-            "ArcGIS Dashboards", 
+            "The final ascent: finished tools people can use in the field and on the web.",
+        projects: [
+            { name: "StoryMap", description: "", technology: []}, 
+            { 
+                name: "Dashboard", 
+                description: "Guardrail End Treatments Dashboard: an ArcGIS Online dashboard showing the replacement status of guardrail end treatments, with a pie chart of guardrails along US routes, a status gauge, and a web map of Dallas.",
+                technology: [
+                    "ArcGIS Online",
+                    "Field Maps",
+                    "Survey123",
+                    "QuickCapture",
+                    "ArcGIS Dashboards", 
+                ],
+            projectUrl: "YOUR_PROJECT_URL",
+            },
+            {
+                name: "Field Application", description: "", technology: []
+            }, 
         ],
-        projectUrl: "YOUR_PROJECT_URL",
-    },
-    {
-        id: "sedona-lightning",
-        name: "Sedona Lightning Strikes Web App",
-        type: "portfolio",
-        coordinates: [ -117.949959, 34.143412], 
-        title: "Interactive Web Mapping",
-        description:
-            "An interactive web mapping project exploring lightning strike data through spatial visualization and web-based GIS.",
-        technology: [
-            "",
-        ],
-        projectUrl: "YOUR_PROJECT_URL",
     },
     {
         id: "crystal-lake",
