@@ -41,6 +41,21 @@ export const journeyStops: JourneyStop[] = [
         ],
     },
     {
+        id: "remote-sensing",
+        name: "Remote Sensing",
+        type: "portfolio",
+        coordinates: [-117.949959, 34.143412], // your old Sedona coordinates
+        title: "Milestone 3",
+        description:
+        "The steep climb: reading the land from above with imagery analysis.",
+        projects: [
+        { name: "Band Combinations", description: "TODO", technology: [] },
+        { name: "NDVI using Red and Red Edge", description: "TODO", technology: [] },
+        { name: "Supervised Image Classification", description: "TODO", technology: [] },
+        { name: "Height Profile", description: "TODO", technology: [] },
+        ],
+    },
+    {
         id: "guardrail-dashboard",
         name: "Guardrail End Treatments Dashboard",
         type: "portfolio",
