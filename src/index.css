@@ -90,7 +90,46 @@ body {
   z-index: 20;
   top: 30px;
   right: 30px;
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
   /* keep the rest of your existing project-panel rule */
+}
+
+.stop-project-list {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stop-project {
+  padding: 16px 0;
+  border-top: 1px solid #dddddd;
+}
+
+.stop-project h4 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+}
+
+.stop-project p {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.technology-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.technology-tag {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eeeeee;
+  font-size: 0.7rem;
+  font-weight: 700;
 }
 
 .about-panel {
