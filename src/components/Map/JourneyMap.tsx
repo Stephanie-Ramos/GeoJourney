@@ -13,8 +13,39 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { journeyStops } from "../../data/journeyStops";
 import { journeyRoute } from "../../data/journeyRoute";
 import type { JourneyStop } from "../../types/journey";
+import { fitAllStops } from "../../utils/mapView";
 
 setWorkerUrl(workerUrl);
+
+const routeCoordinates = journeyRoute.geometry.coordinates as [number, number][];
+
+// Finds the route vertex closest to a stop's coordinates
+function nearestRouteIndex(target: [number, number]): number {
+  let bestIndex = 0;
+  let bestDistance = Infinity;
+
+  routeCoordinates.forEach(([lng, lat], index) => {
+    const distance = (lng - target[0]) ** 2 + (lat - target[1]) ** 2;
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  });
+
+  return bestIndex;
+}
+
+// Portfolio and destination stops, in the order the route reaches them
+const routeStops = journeyStops
+  .filter((stop) => stop.type === "portfolio" || stop.type === "destination")
+  .map((stop) => ({ stop, index: nearestRouteIndex(stop.coordinates) }))
+  .sort((a, b) => a.index - b.index);
+
+// Each stop's marker position, snapped onto the route line
+// (a plain object, because `Map` in this file is MapLibre's Map)
+const snappedCoordinates: Record<string, [number, number]> = Object.fromEntries(
+  routeStops.map(({ stop, index }) => [stop.id, routeCoordinates[index]])
+);
 
 interface JourneyMapProps {
   onMapReady: (map: Map) => void;
@@ -49,8 +80,8 @@ function JourneyMap({
   // Remembers which route segment the journey is currently on
   const segmentIndexRef = useRef(0);
 
-  const guardrailStopReachedRef = useRef(false);
-  const sedonaStopReachedRef = useRef(false);
+  // Remembers which stops have already opened their panel
+  const reachedStopsRef = useRef<Set<string>>(new Set());
 
   // Keep the ref synchronized with React state
   useEffect(() => {
@@ -60,220 +91,94 @@ function JourneyMap({
   // Animate the route
   const animateRoute = useCallback(() => {
     // Prevent the animation from starting more than once
-  if (animationStartedRef.current) return;
+    if (animationStartedRef.current) return;
 
-  animationStartedRef.current = true;
+    animationStartedRef.current = true;
 
-  const map = mapRef.current;
+    const map = mapRef.current;
+    if (!map) return;
 
-  if (!map) return;
+    const source = map.getSource("journey-route");
+    if (!source) return;
 
-  const source = map.getSource("journey-route");
+    const routeSource = source as GeoJSONSource;
+    const coordinates = routeCoordinates;
+    const segmentDuration = 100;
 
-  if (!source) return;
+    const animateSegment = (startTime: number) => {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(elapsed / segmentDuration, 1);
 
-  const routeSource = source as GeoJSONSource;
+      const start = coordinates[segmentIndexRef.current];
+      const end = coordinates[segmentIndexRef.current + 1];
 
-  const coordinates = journeyRoute.geometry.coordinates;
+      const longitude = start[0] + (end[0] - start[0]) * progress;
+      const latitude = start[1] + (end[1] - start[1]) * progress;
 
-  // Find the Guardrail Dashboard portfolio stop
-  const guardrailStop = journeyStops.find(
-    (stop) => stop.id === "guardrail-dashboard"
-  );
+      const markerPosition: [number, number] = [longitude, latitude];
 
-  const sedonaStop = journeyStops.find(
-  (stop) => stop.id === "sedona-lightning"
-  );
+      const overallProgress =
+        (segmentIndexRef.current + progress) / (coordinates.length - 1);
 
-  const destinationStop = journeyStops.find(
-    (stop) => stop.id === "crystal-lake"
-  );
+      onProgressChange(overallProgress);
 
-  if (!guardrailStop) {
-    console.error("Guardrail Dashboard stop not found.");
-    return;
-  }
+      if (journeyMarkerRef.current) {
+        journeyMarkerRef.current.setLngLat(markerPosition);
+        map.setCenter(markerPosition);
+      }
 
-  if (!sedonaStop) {
-    console.error("Sedona stop not found.");
-    return;
-  }
+      // Build the route currently visible
+      const animatedCoordinates = [
+        ...coordinates.slice(0, segmentIndexRef.current + 1),
+        [longitude, latitude] as [number, number],
+      ];
 
-  if (!destinationStop) {
-    console.error("Crystal Lake destination stop not found.");
-    return;
-  }
-
-  const segmentDuration = 100;
-
-  const stopThreshold = 0.002;
-
-  const animateSegment = (startTime: number) => {
-    const currentTime = performance.now();
-
-    const elapsed = currentTime - startTime;
-
-    const progress = Math.min(
-      elapsed / segmentDuration,
-      1
-    );
-
-    // Get the current and next coordinate
-    const start =
-      coordinates[segmentIndexRef.current];
-
-    const end =
-      coordinates[segmentIndexRef.current + 1];
-
-    // Interpolate longitude
-    const longitude =
-      start[0] +
-      (end[0] - start[0]) * progress;
-
-    // Interpolate latitude
-    const latitude =
-      start[1] +
-      (end[1] - start[1]) * progress;
-
-    const markerPosition: [number, number] = [
-      longitude,
-      latitude,
-    ];
-
-    const overallProgress =
-      (segmentIndexRef.current + progress) /
-      (coordinates.length - 1);
-
-    onProgressChange(overallProgress);
-    
-    
-    if (journeyMarkerRef.current) {
-      journeyMarkerRef.current.setLngLat(markerPosition);
-
-      map.setCenter(markerPosition);
-    }
-
-
-
-    // Build the route currently visible
-    const animatedCoordinates = [
-      ...coordinates.slice(
-        0,
-        segmentIndexRef.current + 1
-      ),
-      [longitude, latitude] as [number, number],
-    ];
-
-    const partialRoute = {
-      type: "Feature" as const,
-      properties: {},
-      geometry: {
-        type: "LineString" as const,
-        coordinates: animatedCoordinates,
-      },
-    };
-
-    // Update the route on the map
-    routeSource.setData(partialRoute);
-
-    // Continue animating this segment
-    if (progress < 1) {
-      requestAnimationFrame(() => {
-        animateSegment(startTime);
+      routeSource.setData({
+        type: "Feature" as const,
+        properties: {},
+        geometry: {
+          type: "LineString" as const,
+          coordinates: animatedCoordinates,
+        },
       });
 
-      return;
-    }
+      // Continue animating this segment
+      if (progress < 1) {
+        requestAnimationFrame(() => {
+          animateSegment(startTime);
+        });
+        return;
+      }
 
-    // Move to the next segment
-    segmentIndexRef.current++;
+      // Move to the next segment
+      segmentIndexRef.current++;
 
-    // Check whether the moving marker
-    // has reached the Guardrail Dashboard stop
-    const distanceToGuardrail = Math.sqrt(
-      Math.pow(
-        markerPosition[0] - guardrailStop.coordinates[0],
-        2
-      ) +
-        Math.pow(
-          markerPosition[1] - guardrailStop.coordinates[1],
-          2
-        )
-    );
+      // Did the marker just arrive at a stop?
+      const arrived = routeStops.find(
+        ({ stop, index }) =>
+          index === segmentIndexRef.current &&
+          !reachedStopsRef.current.has(stop.id)
+      );
 
-    if (
-      !guardrailStopReachedRef.current &&
-      distanceToGuardrail < stopThreshold
-    ) {
-      guardrailStopReachedRef.current = true;
+      if (arrived) {
+        reachedStopsRef.current.add(arrived.stop.id);
+        onStopSelect(arrived.stop);
+        animationStartedRef.current = false;
+        return;
+      }
 
-      onStopSelect(guardrailStop);
+      // Has the entire route been drawn?
+      if (segmentIndexRef.current >= coordinates.length - 1) {
+        return;
+      }
 
-      animationStartedRef.current = false;
+      // Start the next segment
+      requestAnimationFrame(() => {
+        animateSegment(performance.now());
+      });
+    };
 
-      return;
-    }
-
-    const distanceToSedona = Math.sqrt(
-      Math.pow(
-        markerPosition[0] - sedonaStop.coordinates[0],
-        2
-      ) +
-        Math.pow(
-          markerPosition[1] - sedonaStop.coordinates[1],
-          2
-        )
-    );
-
-    if (
-      !sedonaStopReachedRef.current &&
-      distanceToSedona < stopThreshold
-    ) {
-      sedonaStopReachedRef.current = true;
-
-      onStopSelect(sedonaStop);
-
-      animationStartedRef.current = false;
-
-      return;
-    }
-    
-
-    const distanceToDestination = Math.sqrt(
-      Math.pow(
-        markerPosition[0] - destinationStop.coordinates[0],
-        2
-      ) +
-        Math.pow(
-          markerPosition[1] - destinationStop.coordinates[1],
-          2
-        )
-    );
-
-    if (distanceToDestination < stopThreshold) {
-      onStopSelect(destinationStop);
-
-      animationStartedRef.current = false;
-
-      return;
-    }
-
-    // Check whether the entire route has been drawn
-    if (
-      segmentIndexRef.current >=
-      coordinates.length - 1
-    ) {
-      return;
-    }
-
-    // Start the next segment
-    requestAnimationFrame(() => {
-      animateSegment(performance.now());
-    });
-  };
-
-  // Start the first segment
-  animateSegment(performance.now());
+    animateSegment(performance.now());
   }, [onStopSelect, onProgressChange]);
 
   // Create the MapLibre map
@@ -291,13 +196,13 @@ function JourneyMap({
     mapRef.current = map;
 
     // Add zoom and rotation controls
-    map.addControl(
-      new NavigationControl(),
-      "top-right"
-    );
+    map.addControl(new NavigationControl(), "top-right");
 
     // Wait until the map style has loaded
     map.on("load", () => {
+      // Show the whole route and every stop when the page first loads
+      fitAllStops(map);
+
       // Add the journey route as a GeoJSON source
       map.addSource("journey-route", {
         type: "geojson",
@@ -308,8 +213,7 @@ function JourneyMap({
           ...journeyRoute,
           geometry: {
             ...journeyRoute.geometry,
-            coordinates:
-              journeyRoute.geometry.coordinates.slice(0, 2),
+            coordinates: journeyRoute.geometry.coordinates.slice(0, 2),
           },
         },
       });
@@ -333,13 +237,10 @@ function JourneyMap({
       });
 
       const startingCoordinate: [number, number] =
-        journeyRoute.geometry.coordinates[0] as [
-            number,
-            number
-        ];
+        journeyRoute.geometry.coordinates[0] as [number, number];
 
-      const markerElement = document. createElement("div");
-      
+      const markerElement = document.createElement("div");
+
       markerElement.className = "journey-marker";
 
       const journeyMarker = new Marker({
@@ -362,43 +263,24 @@ function JourneyMap({
       }
     });
 
-    // Temporary debugging:
-    // prints the map center and zoom after movement
-    map.on("moveend", () => {
-      const center = map.getCenter();
-
-      console.log(
-        "Center:",
-        center.lng,
-        center.lat
-      );
-
-      console.log(
-        "Zoom:",
-        map.getZoom()
-      );
-    });
-
+    // Add a marker for every stop
     journeyStops.forEach((stop) => {
       const markerElement = document.createElement("div");
 
       markerElement.className = `stop-marker stop-marker-${stop.type}`;
       markerElement.setAttribute("role", "button");
-      markerElement.setAttribute(
-        "aria-label",
-        `Open ${stop.name}`
-      );
+      markerElement.setAttribute("aria-label", `Open ${stop.name}`);
       markerElement.tabIndex = 0;
 
       new Marker({
         element: markerElement,
-        anchor:"center", 
+        anchor: "center",
       })
-        .setLngLat(stop.coordinates)
+        .setLngLat(snappedCoordinates[stop.id] ?? stop.coordinates)
         .addTo(map);
 
       markerElement.addEventListener("click", (event) => {
-        // prevents the click from continuing down to the map's interaction handling 
+        // prevents the click from continuing down to the map's interaction handling
         event.stopPropagation();
 
         onStopSelect(stop);
@@ -417,12 +299,13 @@ function JourneyMap({
       routeReadyRef.current = false;
       animationStartedRef.current = false;
       journeyMarkerRef.current = null;
+      segmentIndexRef.current = 0;
+      reachedStopsRef.current = new Set();
     };
   }, [onMapReady, onStopSelect, animateRoute]);
 
   // Start the route animation when
   // the user clicks "Begin the Journey"
-  // Journey-start effect
   useEffect(() => {
     if (!journeyStarted) return;
 
@@ -432,21 +315,17 @@ function JourneyMap({
     animateRoute();
   }, [journeyStarted, animateRoute]);
 
-  // Journey-resume effect
+  // Resume the route animation when
+  // the user clicks "Continue Journey"
   useEffect(() => {
     if (resumeJourney === 0) return;
 
     if (!routeReadyRef.current) return;
 
     animateRoute();
-}, [resumeJourney, animateRoute]);
+  }, [resumeJourney, animateRoute]);
 
-  return (
-    <div
-      ref={mapContainer}
-      className="map-container"
-    />
-  );
+  return <div ref={mapContainer} className="map-container" />;
 }
 
 export default JourneyMap;
