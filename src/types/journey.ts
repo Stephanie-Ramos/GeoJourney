@@ -4,6 +4,13 @@ export type JourneyStopType =
 | "destination"
 | "future"; 
 
+export interface StopProject {
+    name: string;
+    description?: string;
+    technology?: string[];
+    projectUrl?: string;
+}
+
 export interface JourneyStop {
     id: string;
     name: string;
@@ -12,7 +19,10 @@ export interface JourneyStop {
     title: string;
     description: string;
 
-    // Portfolio information (Optional)
+    // Portfolio stops: the projects shown in this stop's panel
+    projects?: StopProject[];
+
+    // Old single-project field (remove once every stop uses 'projects')
     technology?: string[];
     projectUrl?: string;
 }
