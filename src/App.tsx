@@ -100,6 +100,38 @@ function App() {
             <p className="project-panel-description">
               {selectedStop.description}
             </p>
+            {selectedStop.projects && selectedStop.projects.length > 0 && (
+              <ul className="stop-project-list">
+                {selectedStop.projects.map((project) => (
+                  <li key={project.name} className="stop-project">
+                    <h4>{project.name}</h4>
+
+                    {project.description && <p>{project.description}</p>}
+
+                    {project.technology && project.technology.length > 0 && (
+                      <div className="technology-list">
+                        {project.technology.map((technology) => (
+                          <span key={technology} className="technology-tag">
+                            {technology}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {project.projectUrl && (
+                      <a
+                        href={project.projectUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-panel-link"
+                      >
+                        View Project
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
             {selectedStop.technology &&
               selectedStop.technology.length > 0 && (
                 <div className="project-technologies">
