@@ -12,6 +12,20 @@ export const journeyStops: JourneyStop[] = [
 
     },
     {
+        id: "mapping-fundamentals",
+        name: "Mapping Fundamentals",
+        type: "portfolio",
+        coordinates: [-118.10, 33.99], // placeholder: must sit on your route
+        title: "Milestone 1",
+        description:
+        "The foundations: turning raw data into accurate, readable maps.",
+        projects: [
+        { name: "Georeference and Digitize", description: "TODO", technology: [] },
+        { name: "Map Elements", description: "TODO", technology: [] },
+        { name: "Annotation", description: "TODO", technology: [] },
+        ],
+    },
+    {
         id: "guardrail-dashboard",
         name: "Guardrail End Treatments Dashboard",
         type: "portfolio",
