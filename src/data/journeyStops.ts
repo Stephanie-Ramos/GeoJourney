@@ -26,6 +26,21 @@ export const journeyStops: JourneyStop[] = [
         ],
     },
     {
+        id: "design-cad-terrain",
+        name: "Design, CAD & Terrain",
+        type: "portfolio",
+        coordinates: [-118.05, 34.03], // your old Dashboard coordinates
+        title: "Milestone 2",
+        description:
+        "Moving from reading maps to producing designs and surfaces.",
+        projects: [
+        { name: "Digital Illustration Design", description: "TODO", technology: [] },
+        { name: "Working with CAD", description: "TODO", technology: [] },
+        { name: "AutoCAD Designs", description: "TODO", technology: [] },
+        { name: "Deriving Surfaces from CAD", description: "TODO", technology: [] },
+        ],
+    },
+    {
         id: "guardrail-dashboard",
         name: "Guardrail End Treatments Dashboard",
         type: "portfolio",
