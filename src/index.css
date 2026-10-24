@@ -217,7 +217,7 @@ body {
   width: 18px;
   height: 18px;
 
-  border: 4px solid #008000;
+  border: 4px solid #2563eb;
   border-radius: 50%;
 
   background: white;
@@ -265,7 +265,7 @@ body {
 }
 
 .stop-marker-starting-point {
-  background-color: #008000;
+  background-color: #2563eb;
 }
 
 .stop-marker-portfolio {
@@ -276,7 +276,7 @@ body {
   width: 34px;
   height: 34px;
 
-  background-color: #d97706;
+  background-color: #2563eb;
 
   border-radius: 50%;
 }
