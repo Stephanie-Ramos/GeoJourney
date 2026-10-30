@@ -118,6 +118,22 @@ function App() {
                       </div>
                     )}
 
+                    {project.files && project.files.length > 0 && (
+                      <div className="project-file-buttons">
+                        {project.files.map((file) => (
+                          <a
+                            key={file.url}
+                            href={file.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-file-button"
+                          >
+                            {file.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
                     {project.projectUrl && (
                       <a
                         href={project.projectUrl}
