@@ -4,11 +4,17 @@ export type JourneyStopType =
 | "destination"
 | "future"; 
 
+export interface ProjectFile {
+    label: string; // text on the button
+    url: string; // eg "/projects/map-elements.pdf"
+}
+
 export interface StopProject {
     name: string;
     description?: string;
     technology?: string[];
     projectUrl?: string;
+    files?: ProjectFile[];
 }
 
 export interface JourneyStop {

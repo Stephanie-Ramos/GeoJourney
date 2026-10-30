@@ -23,14 +23,25 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { name: "Georeference and Digitize", 
             description: "Georeferencing is the process of aligning images to real-world coordinates by assigning spatial reference information, ensuring the data accurately reflects its geographic location on the map.  Digitizing converts physical maps or images into digital format by tracing features like boundaries or roads, creating vector layers that can be analyzed and edited. Within Los Angeles County, I georeferenced and digitized parcel maps.", 
-            technology: ["ArcGIS Pro"] },
+            technology: ["ArcGIS Pro"],
+            files: [
+                { label: "View",url: "public/mappingFundamentals/georeferenceAndDigitize" }
+            ]
+        },
         { name: "Map Elements", 
             description: "Map elements are components of a map that enhance its readability and functionality, including the title, legend, scale bar, north arrow, map projection, and metadata, which together provide context, orientation, and interpretive information to help users understand the map's content and purpose. I designed a map to demonstrate the Hispanic population per county in California in the year 2018 in a graduated color symbology.", 
-            technology: ["ArcGIS Pro"] },
+            technology: ["ArcGIS Pro"],
+            files: [
+                { label: "View",url: "public/mappingFundamentals/mapElements" }
+            ]
+        },
         { name: "Annotation", 
             description: "Annotation using GIS involves creating and managing text labels or symbols on a map to provide additional information or context, such as place names, building labels, or other descriptive details, which can be customized in terms of font, size, and placement for clarity and readability. I annotated to display the council district members and neighborhoods in the City of Riverside.", 
-            technology: ["ArcGIS Pro"] },
-        ],
+            technology: ["ArcGIS Pro"],
+            files: [
+                { label: "View",url: "public/mappingFundamentals/annotation" }
+            ]
+        }],
     },
     // MILESTONE 2: DESIGN, CAD AND TERRAIN 
     {
@@ -44,17 +55,32 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { name: "Digital Illustration Design", 
             description: "Graphic Design is visual communication combined with art and technology to convey information. In Adobe Illustrator, I combined color theory, elements of art, and principles of design to create visually appealing designs.", 
-            technology: ["Adobe Illustrator"] },
+            technology: ["Adobe Illustrator"],
+             files: [
+                { label: "View Portfolio",url: "public/designCadTerrain/graphicDesignPortfolio.pdf" }
+            ]
+        },
         { name: "Working with CAD", 
             description: "The transform tool is utilized to align a CAD file with a specific coordinate system or reference points. This tool allows you to select points on the CAD file and corresponding points on a basemap, enabling you to accurately position and scale the CAD data within the GIS environment. This process ensures that the CAD file aligns correctly with other geographic data layers for accurate mapping and analysis. I aligned a CAD file to the Rio Hondo College campus basemap.", 
-            technology: ["ArcGIS Pro"] },
+            technology: ["ArcGIS Pro"],
+            files: [
+                { label: "View", url: "public/designCadTerrain/workingWithCad"}
+            ] 
+        },
         { name: "AutoCAD Designs", 
             description: "AutoCAD is a computer-aided design (CAD) software used to create precise 2D drawings and 3D models for planning, design, and documentation. It is widely used in architecture, engineering, construction, manufacturing, and interior design to draft floor plans, technical schematics, site layouts, and detailed construction documents. AutoCAD helps users visualize designs, ensure accuracy, and efficiently communicate ideas through standardized, professional drawings.", 
-            technology: ["AutoCAD"] },
+            technology: ["AutoCAD"],
+            files: [
+                { label: "View Portfolio", url: "public/designCadTerrain/AutoCADPortfolio.pdf"}
+            ]
+        },
         { name: "Deriving Surfaces from CAD", 
             description: "Deriving surfaces from CAD involves converting CAD (Computer-Aided Design) data into 3D terrain models or surface representations for use in GIS applications, enabling detailed spatial analysis and visualization.", 
-            technology: ["ArcGIS Pro"] },
-        ],
+            technology: ["ArcGIS Pro"],
+            files: [
+                { label: "View", url: "public/designCadTerrain/derivingSurfacesFromCad.png"}
+            ]
+        }],
     },
     {
         id: "remote-sensing",
@@ -67,17 +93,32 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { name: "Band Combinations", 
             description: "Band combination is where different spectral bands (channels) from multispectral images are combined to enhance certain features of the image. Each band corresponds to a specific wavelength range of the electromagnetic spectrum, and by combining these bands in various ways, specific characteristics of the Earth's surface or objects can be highlighted. I compared true color image (321RGB) using JPG photos to false color composite (431RGB) using multispectral photos.", 
-            technology: ["ENVI"] },
+            technology: ["ENVI"],
+            files: [
+                { label: "View", url: ""}
+            ]
+        },
         { name: "NDVI using Red and Red Edge", 
             description: "The Normalized Difference Vegetation Index (NDVI) assesses vegetation health and density by analyzing reflectance in the visible (red) and near-infrared (NIR) light spectra. The formula for NDVI is: NDVI = (NIR−Red) / (NIR+Red)", 
-            technology: ["ENVI"] },
+            technology: ["ENVI"],
+            files: [
+                { label: "View to Compare Band Combinations", url: "public/remoteSensing/bandCombinations.png"}
+            ]
+        },
         { name: "Supervised Image Classification", 
             description: "Supervised image classification is a process in which a computer system is trained to categorize images into predefined classes based on labeled training data. At Richard’s Property at Yale University, I classified features of the landscape to distinguish land covers of forest, crops, and salt marshes using ENVI software.", 
-            technology: ["ENVI"] },
+            technology: ["ENVI"],
+            files: [
+                { label: "View", url: "public/remoteSensing/supervisedImageClassification"}
+            ]
+        },
         { name: "Height Profile", 
             description: "Height profile analysis involves measuring the vertical dimensions of objects captured in raster data such as 3D models generated from drone imagery. This analysis helps in understanding the spatial distribution and structural characteristics of features within the landscape.", 
-            technology: ["Reality Capture"] },
-        ],
+            technology: ["Reality Capture"],
+            files: [
+                { label: "View", url: "public/remoteSensing/heightProfile"}
+            ]
+        }],
     },
     {
         id: "web-applied-gis",
@@ -90,7 +131,9 @@ export const journeyStops: JourneyStop[] = [
         projects: [
             { name: "StoryMap", 
                 description: "A digital storytelling tool that combines maps, narrative text, images, and multimedia to present complex information in an engaging, interactive format. It allows users to explore spatial data while following a cohesive story. In this project, titled “Eaton Fire and the Impact on the Altadena Community,” I use a StoryMap to document the devastating effects of the Eaton Fire on Altadena’s environment, residents, and infrastructure.", 
-                technology: ["ArcGIS Online"]}, 
+                technology: ["ArcGIS Online"],
+                projectUrl: "https://storymaps.arcgis.com/stories/8a2c0714dacd457283dafcbfdfdc8108"
+            }, 
             { 
                 name: "Dashboard", 
                 description: "Guardrail End Treatments Dashboard: an ArcGIS Online dashboard showing the replacement status of guardrail end treatments, with a pie chart of guardrails along US routes, a status gauge, and a web map of Dallas.",
