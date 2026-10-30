@@ -132,6 +132,29 @@ body {
   font-weight: 700;
 }
 
+/* project file buttons */
+.project-file-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.project-file-button {
+  display: inline-block;
+  padding: 9px 14px;
+  border-radius: 4px;
+  background: #222;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.project-file-button:hover {
+  opacity: 0.85;
+}
+
 .about-panel {
   max-height: calc(100% - 60px);
   overflow-y: auto;
