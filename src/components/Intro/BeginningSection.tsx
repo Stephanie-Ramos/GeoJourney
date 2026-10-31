@@ -10,12 +10,15 @@ function BeginningSection({ map, onBeginJourney, onOpenAbout }: BeginningSection
     const handleBeginJourney = () => {
         if (!map) return;
 
+        // Camera is tilted 
         map.flyTo({
             center: [-118.1376, 33.9564],
-            zoom: 12,
+            zoom: 12.5,
+            pitch: 60,
+            bearing: 0,
             duration: 3000,
             essential: true,
-        });
+            });
 
         // Start the route after the camera flight finishes.
         map.once("moveend", () => {
