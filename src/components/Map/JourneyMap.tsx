@@ -14,6 +14,7 @@ import { journeyStops } from "../../data/journeyStops";
 import { journeyRoute } from "../../data/journeyRoute";
 import type { JourneyStop } from "../../types/journey";
 import { fitAllStops } from "../../utils/mapView";
+import { getRouteStats, type RouteStats } from "../../utils/routeStats"
 
 setWorkerUrl(workerUrl);
 
@@ -47,12 +48,16 @@ const snappedCoordinates: Record<string, [number, number]> = Object.fromEntries(
   routeStops.map(({ stop, index }) => [stop.id, routeCoordinates[index]])
 );
 
+// Free elevation tiles used for 3D terrain and hillshade
+const TERRAIN_TILES =
+  "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+
 interface JourneyMapProps {
   onMapReady: (map: Map) => void;
   journeyStarted: boolean;
   resumeJourney: number;
   onStopSelect: (stop: JourneyStop) => void;
-  onProgressChange: (progress: number) => void;
+  onProgressChange: (stats: RouteStats) => void;
 }
 
 function JourneyMap({
@@ -117,10 +122,8 @@ function JourneyMap({
 
       const markerPosition: [number, number] = [longitude, latitude];
 
-      const overallProgress =
-        (segmentIndexRef.current + progress) / (coordinates.length - 1);
-
-      onProgressChange(overallProgress);
+      // Miles traveled, percent complete, and elevation for the stats bar
+      onProgressChange(getRouteStats(segmentIndexRef.current, progress));
 
       if (journeyMarkerRef.current) {
         journeyMarkerRef.current.setLngLat(markerPosition);
@@ -206,9 +209,7 @@ function JourneyMap({
       // 3D terrain from free AWS elevation tiles
       map.addSource("terrain-dem", {
         type: "raster-dem",
-        tiles: [
-          "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
-        ],
+        tiles: [TERRAIN_TILES],
         encoding: "terrarium",
         tileSize: 256,
         minzoom: 0,
@@ -221,9 +222,7 @@ function JourneyMap({
       // 2. Hillshade (the code you just asked about)
       map.addSource("hillshade-dem", {
         type: "raster-dem",
-        tiles: [
-          "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
-        ],
+        tiles: [TERRAIN_TILES],
         encoding: "terrarium",
         tileSize: 256,
         minzoom: 0,
