@@ -216,7 +216,28 @@ function JourneyMap({
         attribution: "Terrain Tiles on AWS (registry.opendata.aws/terrain-tiles)",
       });
 
-map.setTerrain({ source: "terrain-dem", exaggeration: 1.4 });
+      map.setTerrain({ source: "terrain-dem", exaggeration: 1.4 });
+
+      // 2. Hillshade (the code you just asked about)
+      map.addSource("hillshade-dem", {
+        type: "raster-dem",
+        tiles: [
+          "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+        ],
+        encoding: "terrarium",
+        tileSize: 256,
+        minzoom: 0,
+        maxzoom: 15,
+      });
+
+      map.addLayer({
+        id: "hillshade",
+        type: "hillshade",
+        source: "hillshade-dem",
+        paint: {
+          "hillshade-exaggeration": 0.4,
+        },
+      });
 
       // Add the journey route as a GeoJSON source
       map.addSource("journey-route", {
