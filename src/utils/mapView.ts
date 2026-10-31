@@ -26,5 +26,7 @@ export function fitAllStops(map: Map) {
     padding: 60,
     duration: 2000,
     maxZoom: 12,
+    pitch: 0,
+    bearing: 0,
   });
 }
