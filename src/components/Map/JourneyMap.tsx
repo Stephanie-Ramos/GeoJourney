@@ -203,6 +203,21 @@ function JourneyMap({
       // Show the whole route and every stop when the page first loads
       fitAllStops(map);
 
+      // 3D terrain from free AWS elevation tiles
+      map.addSource("terrain-dem", {
+        type: "raster-dem",
+        tiles: [
+          "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+        ],
+        encoding: "terrarium",
+        tileSize: 256,
+        minzoom: 0,
+        maxzoom: 15,
+        attribution: "Terrain Tiles on AWS (registry.opendata.aws/terrain-tiles)",
+      });
+
+map.setTerrain({ source: "terrain-dem", exaggeration: 1.4 });
+
       // Add the journey route as a GeoJSON source
       map.addSource("journey-route", {
         type: "geojson",
