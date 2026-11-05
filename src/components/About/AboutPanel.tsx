@@ -55,10 +55,9 @@ function AboutPanel({ onClose }: AboutPanelProps) {
       </p>
 
       <div className="about-panel-actions">
-        <a href="YOUR_RESUME_URL" target="_blank" rel="noopener noreferrer">
-          View Resume
+        <a href="public/resume/StephanieRamos_Resume_SoftwareEngineer.pdf" download>Download Resume
         </a>
-        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com/in/ramosnstephanie/" target="_blank" rel="noopener noreferrer">
           Connect on LinkedIn
         </a>
       </div>
