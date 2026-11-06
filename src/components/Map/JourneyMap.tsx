@@ -214,7 +214,7 @@ function JourneyMap({
         tileSize: 256,
         minzoom: 0,
         maxzoom: 15,
-        attribution: "Terrain Tiles on AWS (registry.opendata.aws/terrain-tiles)",
+        attribution: '<a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener noreferrer">Terrain Tiles on AWS</a>',
       });
 
       map.setTerrain({ source: "terrain-dem", exaggeration: 1.4 });
