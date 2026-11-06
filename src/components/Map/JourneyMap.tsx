@@ -265,7 +265,7 @@ function JourneyMap({
         },
 
         paint: {
-          "line-color": "#008000",
+          "line-color": "blue",
           "line-width": 5,
           "line-opacity": 0.8,
         },

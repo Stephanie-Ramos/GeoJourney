@@ -132,7 +132,8 @@ export const journeyStops: JourneyStop[] = [
             { name: "StoryMap", 
                 description: "A digital storytelling tool that combines maps, narrative text, images, and multimedia to present complex information in an engaging, interactive format. It allows users to explore spatial data while following a cohesive story. In this project, titled “Eaton Fire and the Impact on the Altadena Community,” I use a StoryMap to document the devastating effects of the Eaton Fire on Altadena’s environment, residents, and infrastructure.", 
                 technology: ["ArcGIS Online"],
-                projectUrl: "https://storymaps.arcgis.com/stories/8a2c0714dacd457283dafcbfdfdc8108"
+                files: [
+                { label: "View", url: "https://storymaps.arcgis.com/stories/8a2c0714dacd457283dafcbfdfdc8108" }]
             }, 
             { 
                 name: "Dashboard", 
@@ -144,13 +145,15 @@ export const journeyStops: JourneyStop[] = [
                     "QuickCapture",
                     "ArcGIS Dashboards", 
                 ],
-            projectUrl: "https://riohondo.maps.arcgis.com/apps/dashboards/8b243b89f47d4439b3cc975bdfd57c25",
+                files: [
+                { label: "View", url: "https://riohondo.maps.arcgis.com/apps/dashboards/8b243b89f47d4439b3cc975bdfd57c25" }]
             },
             {
                 name: "Field Application", 
                 description: "A field application is a mobile or tablet-based tool designed to collect, update, and manage geographic data in real-time while out in the field often using ArcGIS Field Maps or Survey123. This field application records lightning strikes in Arizona.",
                 technology: ["ArcGIS Online"],
-                projectUrl: "https://www.arcgis.com/apps/mapviewer/index.html?webmap=31d4df07e6e64237a5f55262f7447743&extent=-114.696,32.9152,-108.28,36.6187"
+                files: [
+                { label: "View", url: "https://www.arcgis.com/apps/mapviewer/index.html?webmap=31d4df07e6e64237a5f55262f7447743&extent=-114.696,32.9152,-108.28,36.6187" }]
             }, 
         ],
     },
