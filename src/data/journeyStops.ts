@@ -23,7 +23,7 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { 
             image: {
-                src: "public/projectPreviews/georeferenceAndDigitize",
+                src: "projectPreviews/georeferenceAndDigitize",
                 alt: "Georeference and Digitize",
             },
             name: "Georeference and Digitize", 
@@ -35,7 +35,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/mapElements",
+                src: "projectPreviews/mapElements",
                 alt: "Map Elements",
             },
             name: "Map Elements", 
@@ -47,7 +47,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/annotation",
+                src: "projectPreviews/annotation",
                 alt: "Annotation",
             },
             name: "Annotation", 
@@ -70,7 +70,7 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { 
             image: {
-                src: "public/projectPreviews/graphicDesign",
+                src: "projectPreviews/graphicDesign",
                 alt: "Graphic Designs",
             },
             name: "Digital Illustration Design", 
@@ -82,7 +82,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/workingWithCad",
+                src: "projectPreviews/workingWithCad",
                 alt: "Working with CAD",
             },
             name: "Working with CAD", 
@@ -94,7 +94,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/autoCadDesigns",
+                src: "projectPreviews/autoCadDesigns",
                 alt: "AutoCAD Designs",
             },
             name: "AutoCAD Designs", 
@@ -106,7 +106,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/derivingSurfacesWithCad",
+                src: "projectPreviews/derivingSurfacesWithCad",
                 alt: "Deriving Surfaces with CAD",
             },
             name: "Deriving Surfaces from CAD", 
@@ -128,7 +128,7 @@ export const journeyStops: JourneyStop[] = [
         projects: [
         { 
             image: {
-                src: "public/projectPreviews/bandCombinations",
+                src: "projectPreviews/bandCombinations",
                 alt: "Band Combinations",
             },
             name: "Band Combinations", 
@@ -140,7 +140,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/ndvi",
+                src: "projectPreviews/ndvi",
                 alt: "NDVI using Red and Red Edge",
             },
             name: "NDVI using Red and Red Edge", 
@@ -152,7 +152,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/supervisedImageClassification",
+                src: "projectPreviews/supervisedImageClassification",
                 alt: "Supervised Image Classification",
             },
             name: "Supervised Image Classification", 
@@ -164,7 +164,7 @@ export const journeyStops: JourneyStop[] = [
         },
         { 
             image: {
-                src: "public/projectPreviews/heightProfile.webp",
+                src: "projectPreviews/heightProfile.webp",
                 alt: "Height Profile",
             },
             name: "Height Profile", 
@@ -186,7 +186,7 @@ export const journeyStops: JourneyStop[] = [
         projects: [
             { 
                 image: {
-                    src: "public/projectPreviews/storyMap",
+                    src: "projectPreviews/storyMap",
                     alt: "Story Map",
                 },
                 name: "StoryMap", 
@@ -197,7 +197,7 @@ export const journeyStops: JourneyStop[] = [
             }, 
             { 
                 image: {
-                    src: "public/projectPreviews/dashboard",
+                    src: "projectPreviews/dashboard",
                     alt: "Dashboard",
                 },
                 name: "Dashboard", 
@@ -214,7 +214,7 @@ export const journeyStops: JourneyStop[] = [
             },
             {
                 image: {
-                    src: "public/projectPreviews/fieldApplication",
+                    src: "projectPreviews/fieldApplication",
                     alt: "Field Application",
                 },
                 name: "Field Application", 

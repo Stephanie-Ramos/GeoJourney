@@ -113,6 +113,26 @@ body {
   list-style: none;
 }
 
+/* Project Images Previews */
+.project-image-link {
+  display: block;
+  margin: 0 0 10px;
+}
+
+.project-image {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #eeeeee;
+}
+
+.project-image-link:hover .project-image {
+  opacity: 0.9;
+}
+
 .stop-project {
   padding: 16px 0;
   border-top: 1px solid #dddddd;
