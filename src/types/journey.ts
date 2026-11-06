@@ -9,12 +9,18 @@ export interface ProjectFile {
     url: string; // eg "/projects/map-elements.pdf"
 }
 
+export interface ProjectImage {
+    src: string;
+    alt: string;
+}
+
 export interface StopProject {
     name: string;
     description?: string;
     technology?: string[];
     projectUrl?: string;
     files?: ProjectFile[];
+    image?: ProjectImage;
 }
 
 export interface JourneyStop {
