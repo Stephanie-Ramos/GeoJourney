@@ -114,28 +114,39 @@ body {
 }
 
 /* Project Images Previews */
+/* The link that wraps the image */
 .project-image-link {
-  display: block;
-  margin: 0 0 10px;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 12px;
 }
 
+/* The image itself */
 .project-image {
   display: block;
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
+  margin: 0 auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
+  object-position: top;
   border-radius: 6px;
-  background: #eeeeee;
 }
 
-.project-image-link:hover .project-image {
-  opacity: 0.9;
+/* Keeps the left and right padding equal when the panel scrolls */
+.project-panel {
+  scrollbar-gutter: stable both-edges;
 }
+
 
 .stop-project {
-  padding: 16px 0;
+  text-align: center;
   border-top: 1px solid #dddddd;
+}
+
+.stop-project .technology-list,
+.stop-project .project-file-buttons {
+  justify-content: center;
 }
 
 .stop-project h4 {
