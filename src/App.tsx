@@ -86,6 +86,23 @@ function App() {
                 <ul className="stop-project-list">
                   {selectedStop.projects.map((project) => (
                     <li key={project.name} className="stop-project">
+                      
+                      {project.image && (
+                        <a
+                          href={project.image.src}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-image-link"
+                        >
+                          <img
+                            src={project.image.src}
+                            alt={project.image.alt}
+                            className="project-image"
+                            loading="lazy"
+                          />
+                        </a>
+                      )}
+
                       <h4>{project.name}</h4>
 
                       {project.description && <p>{project.description}</p>}
